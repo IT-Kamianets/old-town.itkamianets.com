@@ -28,7 +28,7 @@
   box-shadow: var(--shadow-lg);
 }
 
-/* Image */
+/* Image wrap */
 .room-card__img-wrap {
   position: relative;
   overflow: hidden;
@@ -46,6 +46,61 @@
   transform: scale(1.06);
 }
 
+/* ── Заглушка ── */
+.room-card__placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background:
+    linear-gradient(135deg,
+      #e8ddd0 0%,
+      #d9ccba 40%,
+      #c9b99a 100%
+    );
+  position: relative;
+  overflow: hidden;
+}
+
+/* Декоративна текстура поверх градієнту */
+.room-card__placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 20px,
+      rgba(255,255,255,0.12) 20px,
+      rgba(255,255,255,0.12) 21px
+    );
+}
+
+.room-card__placeholder-icon {
+  font-size: 3rem;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+  filter: grayscale(0.2);
+}
+
+.room-card__placeholder-label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-wood-light);
+  position: relative;
+  z-index: 1;
+  background: rgba(255,255,255,0.6);
+  padding: 4px 12px;
+  border-radius: 100px;
+}
+
 /* Badge */
 .room-card__badge {
   position: absolute;
@@ -59,9 +114,10 @@
   padding: 4px 10px;
   border-radius: 100px;
   font-weight: 500;
+  z-index: 2;
 }
 
-/* Meta (size, guests) over image bottom */
+/* Meta — розмір і гості */
 .room-card__meta {
   position: absolute;
   bottom: 0;
@@ -70,10 +126,11 @@
   display: flex;
   gap: var(--space-sm);
   padding: var(--space-md) var(--space-sm) var(--space-sm);
-  background: linear-gradient(transparent, rgba(20,10,5,0.6));
+  background: linear-gradient(transparent, rgba(20,10,5,0.55));
   color: rgba(255,255,255,0.9);
   font-size: 0.75rem;
   letter-spacing: 0.05em;
+  z-index: 2;
 }
 
 /* Body */
@@ -133,7 +190,6 @@
   flex-shrink: 0;
 }
 
-/* CTA */
 .room-card__cta {
   width: 100%;
   justify-content: center;
@@ -142,13 +198,9 @@
 
 /* Responsive */
 @media (max-width: 1024px) {
-  .rooms__grid {
-    grid-template-columns: 1fr 1fr;
-  }
+  .rooms__grid { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 640px) {
-  .rooms__grid {
-    grid-template-columns: 1fr;
-  }
+  .rooms__grid { grid-template-columns: 1fr; }
 }

@@ -4,15 +4,16 @@
 import './styles/main.css';
 import './styles/utils.css';
 
-import Header      from './components/Header';
-import Hero        from './sections/Hero';
-import About       from './sections/About';
-import Rooms       from './sections/Rooms';
-import Services    from './sections/Services';
-import Gallery     from './sections/Gallery';
-import Location    from './sections/Location';
-import BookingForm from './sections/BookingForm';
-import Footer      from './components/Footer';
+import Header          from './components/Header';
+import FloatingContact from './components/FloatingContact';
+import Hero            from './sections/Hero';
+import About           from './sections/About';
+import Rooms           from './sections/Rooms';
+import Services        from './sections/Services';
+import Gallery         from './sections/Gallery';
+import Location        from './sections/Location';
+import BookingForm     from './sections/BookingForm';
+import Footer          from './components/Footer';
 
 export default function App() {
   return (
@@ -35,6 +36,9 @@ export default function App() {
       </main>
 
       <Footer />
+
+      {/* Плаваюча кнопка зв'язку */}
+      <FloatingContact />
     </>
   );
 }

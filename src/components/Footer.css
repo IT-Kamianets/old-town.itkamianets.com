@@ -61,35 +61,50 @@
   color: var(--color-white);
   transition: color var(--trans-fast);
 }
-
 .footer__addr a:hover { color: var(--color-stone-light); }
 
-/* Socials */
+/* ── Соціальні іконки ── */
 .footer__socials {
   display: flex;
-  gap: var(--space-sm);
-  margin-top: var(--space-xs);
+  gap: 10px;
+  margin-top: var(--space-sm);
 }
 
 .footer__social {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
   border: 1px solid rgba(255,255,255,0.15);
-  border-radius: var(--radius-sm);
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: rgba(255,255,255,0.6);
-  transition: background var(--trans-fast), color var(--trans-fast), border-color var(--trans-fast);
+  color: rgba(255,255,255,0.55);
+  transition: background var(--trans-fast), color var(--trans-fast),
+              border-color var(--trans-fast), transform var(--trans-fast);
 }
 
 .footer__social:hover {
-  background: rgba(255,255,255,0.1);
+  transform: translateY(-2px);
   color: var(--color-white);
-  border-color: rgba(255,255,255,0.35);
+  border-color: rgba(255,255,255,0.3);
+}
+
+/* Instagram — градієнт при hover */
+.footer__social:nth-child(1):hover {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  border-color: transparent;
+}
+
+/* Facebook — синій */
+.footer__social:nth-child(2):hover {
+  background: #1877f2;
+  border-color: transparent;
+}
+
+/* Booking — темно-синій */
+.footer__social:nth-child(3):hover {
+  background: #003580;
+  border-color: transparent;
 }
 
 /* Nav columns */
@@ -115,10 +130,7 @@
   color: rgba(255,255,255,0.65);
   transition: color var(--trans-fast);
 }
-
-.footer__nav-col a:hover {
-  color: var(--color-white);
-}
+.footer__nav-col a:hover { color: var(--color-white); }
 
 /* Hours */
 .footer__hours li {
@@ -128,9 +140,8 @@
   padding-block: 4px;
   border-bottom: 1px solid rgba(255,255,255,0.06);
 }
-
-.footer__hours span { color: rgba(255,255,255,0.5); }
-.footer__hours strong { color: var(--color-white); }
+.footer__hours span  { color: rgba(255,255,255,0.5); }
+.footer__hours strong{ color: var(--color-white); }
 
 /* Bottom bar */
 .footer__bottom {
@@ -149,19 +160,13 @@
 @media (max-width: 900px) {
   .footer__inner {
     grid-template-columns: 1fr 1fr;
-    gap: var(--space-xl) var(--space-xl);
+    gap: var(--space-xl);
   }
-
-  .footer__brand {
-    grid-column: 1 / -1;
-  }
+  .footer__brand { grid-column: 1 / -1; }
 }
 
 @media (max-width: 500px) {
-  .footer__inner {
-    grid-template-columns: 1fr;
-  }
-
+  .footer__inner { grid-template-columns: 1fr; }
   .footer__bottom {
     flex-direction: column;
     text-align: center;

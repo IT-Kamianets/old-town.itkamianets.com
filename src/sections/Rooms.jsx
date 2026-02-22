@@ -1,5 +1,9 @@
 // sections/Rooms.jsx
+// Коли фото номерів будуть готові — додай їх так:
+//   import room1 from '../assets/rooms/room1.webp';
+// і встав у поле image: room1
 
+import { memo } from 'react';
 import { useRevealClass, useInView } from '../hooks/useInView';
 import './Rooms.css';
 
@@ -27,13 +31,15 @@ function IconSize() {
   );
 }
 
-// ── Заміни на реальні фото номерів ──
+// Іконки для заглушок — кожна кімната своя
+const placeholderIcons = ['🛏', '🛏', '🏠', '🛋', '🔥', '🏔'];
+
 const rooms = [
   {
     id:       'deluxe-1',
     name:     'Делюкс №1',
     subtitle: 'Queen-size ліжко · 15 м²',
-    image:    'src/assets/rooms/room1.webp',
+    image:    null,
     alt:      'Делюкс №1 — затишний номер з видом на місто',
     guests:   2,
     size:     15,
@@ -44,7 +50,7 @@ const rooms = [
     id:       'deluxe-2',
     name:     'Делюкс №2',
     subtitle: 'Queen-size ліжко · 15 м²',
-    image:    'src/assets/rooms/room2.webp',
+    image:    null,
     alt:      'Делюкс №2 — світлий номер з паркетом',
     guests:   2,
     size:     15,
@@ -55,18 +61,18 @@ const rooms = [
     id:       'deluxe-3',
     name:     'Делюкс №3',
     subtitle: 'Double ліжко · 16 м²',
-    image:    'src/assets/rooms/room3.webp',
-    alt:      'Делюкс №3 — затишний номер з автентичним інтер\'єром',
+    image:    null,
+    alt:      "Делюкс №3 — затишний номер з автентичним інтер'єром",
     guests:   2,
     size:     16,
-    desc:     'Теплий автентичний інтер\'єр з дерев\'яними акцентами. Тераса з виходом у внутрішній двір.',
+    desc:     "Теплий автентичний інтер'єр з дерев'яними акцентами. Тераса з виходом у внутрішній двір.",
     amenities: ['Тераса у дворик', 'Міні-кухня', 'Телевізор', 'Кавоварка', 'Шумозахисні вікна', 'Власна ванна'],
   },
   {
     id:       'quad',
     name:     'Чотиримісний Делюкс',
     subtitle: 'Двоспальне ліжко + диван · 25 м²',
-    image:    'src/assets/rooms/room4.webp',
+    image:    null,
     alt:      'Чотиримісний Делюкс — просторий номер для компанії',
     guests:   4,
     size:     25,
@@ -78,7 +84,7 @@ const rooms = [
     id:       'family',
     name:     'Family з каміном',
     subtitle: 'King-size ліжко · 21 м²',
-    image:    'src/assets/rooms/room5.webp',
+    image:    null,
     alt:      'Family номер з каміном і терасою',
     guests:   4,
     size:     21,
@@ -90,7 +96,7 @@ const rooms = [
     id:       'suite',
     name:     'Люкс мансарда',
     subtitle: 'King-size ліжко · 30 м²',
-    image:    'src/assets/rooms/room6.webp',
+    image:    null,
     alt:      'Люкс мансарда — найпросторіший номер з видом на дахи міста',
     guests:   2,
     size:     30,
@@ -100,7 +106,16 @@ const rooms = [
   },
 ];
 
-function RoomCard({ room, index }) {
+function RoomPlaceholder({ index, name }) {
+  return (
+    <div className="room-card__placeholder" aria-label={`Фото ${name} — скоро буде`}>
+      <div className="room-card__placeholder-icon">{placeholderIcons[index] ?? '🛏'}</div>
+      <p className="room-card__placeholder-label">Фото скоро</p>
+    </div>
+  );
+}
+
+const RoomCard = memo(function RoomCard({ room, index }) {
   const { ref, inView } = useInView({ threshold: 0.1 });
 
   return (
@@ -111,7 +126,17 @@ function RoomCard({ room, index }) {
       aria-label={`Номер: ${room.name}`}
     >
       <div className="room-card__img-wrap">
-        <img src={room.image} alt={room.alt} loading="lazy" className="room-card__img" />
+        {room.image ? (
+          <img
+            src={room.image}
+            alt={room.alt}
+            loading="lazy"
+            decoding="async"
+            className="room-card__img"
+          />
+        ) : (
+          <RoomPlaceholder index={index} name={room.name} />
+        )}
         {room.badge && <div className="room-card__badge">{room.badge}</div>}
         <div className="room-card__meta">
           <span><IconGuests /> до {room.guests} гостей</span>
@@ -139,7 +164,7 @@ function RoomCard({ room, index }) {
       </div>
     </article>
   );
-}
+});
 
 export default function Rooms() {
   const header = useRevealClass('');

@@ -113,9 +113,22 @@
   border: 1px solid var(--color-border);
 }
 
-.location__map iframe {
-  border: none;
-  filter: sepia(20%) contrast(95%);
+/* Кастомізація Leaflet — attribution маленьким */
+.location__map .leaflet-control-attribution {
+  font-size: 0.65rem;
+  background: rgba(250, 247, 242, 0.85);
+  backdrop-filter: blur(4px);
+}
+
+/* Popup */
+.location__map .leaflet-popup-content-wrapper {
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+}
+
+.location__map .leaflet-popup-tip {
+  background: #fff;
 }
 
 .location__gmap-btn {

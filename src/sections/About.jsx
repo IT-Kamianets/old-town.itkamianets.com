@@ -1,12 +1,11 @@
 // sections/About.jsx
 // Hotel story, atmosphere, and key facts — split image/text layout
 
+import { memo } from 'react';
 import { useRevealClass } from '../hooks/useInView';
 import { IconTower, IconHome, IconLeaf, IconCityView } from '../components/Icons';
+import aboutImage from '../assets/about.webp'; // ← імпорт замість рядка
 import './About.css';
-
-// Replace with actual interior / facade photo
-const ABOUT_IMAGE_1 = 'src/assets/about.webp';
 
 const highlights = [
   { Icon: IconTower,    label: 'Середньовічне оточення', desc: "Кам'янець-Подільський замок за 19 хвилин пішки" },
@@ -15,8 +14,22 @@ const highlights = [
   { Icon: IconCityView, label: 'Вид на місто',             desc: 'З кожного номера відкривається панорама Старого міста' },
 ];
 
+// Мемоізований елемент highlight
+const HighlightItem = memo(function HighlightItem({ Icon, label, desc }) {
+  return (
+    <li className="about__highlight">
+      <span className="about__highlight-icon">
+        <Icon width={22} height={22} />
+      </span>
+      <div>
+        <strong>{label}</strong>
+        <p>{desc}</p>
+      </div>
+    </li>
+  );
+});
+
 export default function About() {
-  const title   = useRevealClass('');
   const imgWrap = useRevealClass('reveal--left');
   const text    = useRevealClass('reveal--right');
 
@@ -26,13 +39,14 @@ export default function About() {
 
         <div className="about__layout">
 
-        {/* Left — single image */}
+          {/* Left — single image */}
           <div ref={imgWrap.ref} className={`about__images ${imgWrap.className}`}>
             <div className="about__img-main">
               <img
-                src={ABOUT_IMAGE_1}
+                src={aboutImage}
                 alt="Інтер'єр Гостерії Old Town — затишна атмосфера"
                 loading="lazy"
+                decoding="async"
               />
             </div>
           </div>
@@ -65,18 +79,9 @@ export default function About() {
               життя. Ми раді бути вашим домом тут.
             </p>
 
-            {/* Highlights grid */}
             <ul className="about__highlights" aria-label="Ключові переваги">
               {highlights.map(({ Icon, label, desc }) => (
-                <li key={label} className="about__highlight">
-                  <span className="about__highlight-icon">
-                    <Icon width={22} height={22} />
-                  </span>
-                  <div>
-                    <strong>{label}</strong>
-                    <p>{desc}</p>
-                  </div>
-                </li>
+                <HighlightItem key={label} Icon={Icon} label={label} desc={desc} />
               ))}
             </ul>
 

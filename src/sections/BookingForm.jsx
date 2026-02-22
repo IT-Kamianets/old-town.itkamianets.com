@@ -1,5 +1,10 @@
 // sections/BookingForm.jsx
-// Booking inquiry form with room selection, dates, and contact info
+// Форма бронювання
+//
+// Щоб форма реально надсилала листи:
+// 1. Зайди на formspree.io → створи форму → отримай ID (вигляд: "xpwzrjkl")
+// 2. npm install @formspree/react
+// 3. Замінь handleSubmit на хук useForm з @formspree/react (приклад у коментарях нижче)
 
 import { useState } from 'react';
 import { useRevealClass } from '../hooks/useInView';
@@ -53,19 +58,26 @@ export default function BookingForm() {
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
+  // ─────────────────────────────────────────────────────────────────
+  // TODO: Підключи Formspree щоб форма реально надсилала:
+  //
+  // import { useForm } from '@formspree/react';
+  // const [state, handleSubmit] = useForm("YOUR_FORM_ID");
+  // if (state.succeeded) → показати success
+  //
+  // Або залишити поточний handleSubmit і вставити реальний fetch:
+  //
+  // const res = await fetch('https://formspree.io/f/YOUR_ID', {
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json' },
+  //   body: JSON.stringify(form),
+  // });
+  // if (res.ok) setStatus('success'); else setStatus('error');
+  // ─────────────────────────────────────────────────────────────────
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('sending');
-
-    // TODO: Replace with your actual form submission endpoint
-    // Options: Formspree (https://formspree.io), EmailJS, own API
-    // Example Formspree:
-    // const res = await fetch('https://formspree.io/f/YOUR_ID', {
-    //   method: 'POST', headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(form),
-    // });
-
-    // Simulating success for demo
+    // Симуляція — замінити на реальний запит вище
     await new Promise(r => setTimeout(r, 1200));
     setStatus('success');
   };
@@ -123,7 +135,7 @@ export default function BookingForm() {
                   </span>
                   <div>
                     <strong>Мови спілкування</strong>
-                    <span>Українська · Англійська · Російська</span>
+                    <span>Українська · Англійська</span>
                   </div>
                 </li>
               </ul>
@@ -161,7 +173,6 @@ export default function BookingForm() {
                 noValidate
                 aria-label="Форма бронювання номеру"
               >
-                {/* Row: name + phone */}
                 <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="name">Ваше ім'я *</label>
@@ -183,7 +194,6 @@ export default function BookingForm() {
                   </div>
                 </div>
 
-                {/* Email */}
                 <div className="form-group">
                   <label htmlFor="email">Email *</label>
                   <input
@@ -194,7 +204,6 @@ export default function BookingForm() {
                   />
                 </div>
 
-                {/* Dates row */}
                 <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="checkin">Дата заїзду *</label>
@@ -216,7 +225,6 @@ export default function BookingForm() {
                   </div>
                 </div>
 
-                {/* Room + guests */}
                 <div className="form-row">
                   <div className="form-group" style={{ flex: 2 }}>
                     <label htmlFor="room">Тип номеру</label>
@@ -237,7 +245,6 @@ export default function BookingForm() {
                   </div>
                 </div>
 
-                {/* Message */}
                 <div className="form-group">
                   <label htmlFor="message">Побажання чи запитання</label>
                   <textarea
@@ -256,7 +263,7 @@ export default function BookingForm() {
                 </button>
 
                 <p className="form-note">
-                  * Поля обов'язкові. Ми відповімо протягом 4–8 годин. 
+                  * Поля обов'язкові. Ми відповімо протягом 4–8 годин.
                   Бронювання підтверджується після передоплати.
                 </p>
               </form>

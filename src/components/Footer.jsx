@@ -1,5 +1,4 @@
 // components/Footer.jsx
-// Footer with logo, nav, socials, address, and copyright
 
 import './Footer.css';
 
@@ -9,27 +8,54 @@ const navCols = [
   {
     title: 'Готель',
     links: [
-      { href: '#about',    label: 'Про нас'        },
-      { href: '#rooms',    label: 'Номери'          },
-      { href: '#services', label: 'Сервіси'         },
-      { href: '#gallery',  label: 'Галерея'         },
+      { href: '#about',    label: 'Про нас'      },
+      { href: '#rooms',    label: 'Номери'        },
+      { href: '#services', label: 'Сервіси'       },
+      { href: '#gallery',  label: 'Галерея'       },
     ],
   },
   {
     title: 'Гостям',
     links: [
-      { href: '#contact',  label: 'Забронювати'    },
-      { href: '#location', label: 'Як дістатися'   },
-      { href: '#contact',  label: 'Контакти'       },
+      { href: '#contact',  label: 'Забронювати'  },
+      { href: '#location', label: 'Як дістатися' },
+      { href: '#contact',  label: 'Контакти'     },
     ],
   },
 ];
 
-// Update these with real social media links
+// SVG-іконки соцмереж — замінити href на реальні посилання
 const socials = [
-  { href: 'https://www.instagram.com/', label: 'Instagram', icon: 'IG' },
-  { href: 'https://www.facebook.com/',  label: 'Facebook',  icon: 'FB' },
-  { href: 'https://www.booking.com/',   label: 'Booking',   icon: 'BK' },
+  {
+    href:  'https://www.instagram.com/YOUR_PROFILE',
+    label: 'Instagram',
+    icon: (
+      <svg viewBox="0 0 24 24" width={18} height={18} fill="none" stroke="currentColor"
+           strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" strokeWidth="0" />
+      </svg>
+    ),
+  },
+  {
+    href:  'https://www.facebook.com/YOUR_PAGE',
+    label: 'Facebook',
+    icon: (
+      <svg viewBox="0 0 24 24" width={18} height={18} fill="currentColor" aria-hidden="true">
+        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+      </svg>
+    ),
+  },
+  {
+    href:  'https://www.booking.com/hotel/ua/YOUR_HOTEL',
+    label: 'Booking.com',
+    icon: (
+      <svg viewBox="0 0 24 24" width={18} height={18} fill="currentColor" aria-hidden="true">
+        <path d="M3 3h7v18H3zM13 3h8v4h-8zM13 10h8v4h-8zM13 17h8v4h-8z"/>
+      </svg>
+    ),
+  },
 ];
 
 export default function Footer() {
@@ -51,6 +77,8 @@ export default function Footer() {
             <a href="tel:+380673801949">067 380 1949</a>
             <span>вул. П'ятницька, 8</span>
           </address>
+
+          {/* Соціальні мережі */}
           <div className="footer__socials" aria-label="Соціальні мережі та платформи бронювання">
             {socials.map(({ href, label, icon }) => (
               <a
@@ -60,6 +88,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="footer__social"
                 aria-label={label}
+                title={label}
               >
                 {icon}
               </a>
@@ -87,7 +116,7 @@ export default function Footer() {
           <ul>
             <li><span>Заїзд</span><strong>від 14:00</strong></li>
             <li><span>Виїзд</span><strong>до 11:00</strong></li>
-            <li><span>Мови</span><strong>UA · EN · RU</strong></li>
+            <li><span>Мови</span><strong>UA · EN</strong></li>
           </ul>
         </div>
       </div>
@@ -99,7 +128,13 @@ export default function Footer() {
           Усі права захищені.
         </p>
         <p className="footer__bottom-dev">
-          Розроблено з <svg viewBox="0 0 24 24" width={13} height={13} fill="currentColor" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{display:'inline',verticalAlign:'middle',marginBottom:'2px',color:'var(--color-burgundy)'}}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> для Поділля
+          Розроблено з{' '}
+          <svg viewBox="0 0 24 24" width={13} height={13} fill="currentColor"
+               style={{ display: 'inline', verticalAlign: 'middle', marginBottom: 2, color: 'var(--color-burgundy)' }}
+               aria-hidden="true">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>{' '}
+          для Поділля
         </p>
       </div>
     </footer>

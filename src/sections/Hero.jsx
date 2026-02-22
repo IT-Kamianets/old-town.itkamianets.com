@@ -1,25 +1,34 @@
 // sections/Hero.jsx
 // Fullscreen hero with parallax background and entrance animation
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
+import heroImage from '../assets/hero.webp'; // ← імпорт замість рядка
 import './Hero.css';
-
-// Replace HERO_IMAGE with actual hotel facade photo
-const HERO_IMAGE = 'src/assets/hero.webp';
 
 export default function Hero() {
   const bgRef = useRef(null);
+  // Зберігаємо RAF id щоб не плодити запити
+  const rafId = useRef(null);
 
-  // Parallax on scroll
-  useEffect(() => {
-    const onScroll = () => {
-      if (!bgRef.current) return;
-      const y = window.scrollY;
-      bgRef.current.style.transform = `translateY(${y * 0.35}px)`;
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+  // Паралакс зі throttle через requestAnimationFrame
+  const onScroll = useCallback(() => {
+    if (rafId.current) return; // вже заплановано — пропускаємо
+    rafId.current = requestAnimationFrame(() => {
+      if (bgRef.current) {
+        const y = window.scrollY;
+        bgRef.current.style.transform = `translateY(${y * 0.3}px)`;
+      }
+      rafId.current = null;
+    });
   }, []);
+
+  useEffect(() => {
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafId.current) cancelAnimationFrame(rafId.current);
+    };
+  }, [onScroll]);
 
   return (
     <section id="hero" className="hero" aria-label="Ласкаво просимо до Гостерії Old Town">
@@ -29,7 +38,7 @@ export default function Hero() {
         <div
           ref={bgRef}
           className="hero__bg"
-          style={{ backgroundImage: `url('${HERO_IMAGE}')` }}
+          style={{ backgroundImage: `url(${heroImage})` }}
           role="img"
           aria-label="Вид на Кам'янець-Подільський — мальовниче Старе місто"
         />

@@ -1,6 +1,6 @@
 // sections/Services.jsx
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, memo } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { useRevealClass, useInView } from '../hooks/useInView';
 import {
@@ -9,6 +9,14 @@ import {
   IconTower, IconChurch, IconMuseum, IconLeaf, IconMap,
 } from '../components/Icons';
 import './Services.css';
+
+// ← Імпорти замість рядків-шляхів
+import imgFortress  from '../assets/services/Кам\'янець-Подільська фортеця.webp';
+import imgCathedral from '../assets/services/Катедральний костьол.webp';
+import imgMuseum    from '../assets/services/Музей Мініатюр.webp';
+import imgArmenian  from '../assets/services/Вірменська церква.webp';
+import imgTovtry    from '../assets/services/Подільські Товтри.webp';
+import imgCenter    from '../assets/services/Центр міста.webp';
 
 const services = [
   { Icon: IconWifi,       title: 'Безкоштовний Wi-Fi',    desc: 'Швидкий інтернет у всіх номерах і спільних зонах.' },
@@ -21,17 +29,17 @@ const services = [
   { Icon: IconKey,        title: 'Check-in 14:00–23:59',   desc: 'Зручний час заїзду. Check-out — до 11:00.' },
 ];
 
-// ── Заміни src на власні фото пам'яток ──
 const landmarks = [
-  { name: "Кам'янець-Подільська фортеця", dist: '11 хв пішки', Icon: IconTower,  src: 'src/assets/services/Кам\'янець-Подільська фортеця.webp' },
-  { name: 'Катедральний костьол',          dist: '6 хв пішки',  Icon: IconChurch, src: 'src/assets/services/Катедральний костьол.webp' },
-  { name: 'Музей Мініатюр',               dist: '5 хв пішки',  Icon: IconMuseum, src: 'src/assets/services/Музей Мініатюр.webp' },
-  { name: 'Вірменська церква',             dist: '5 хв пішки',  Icon: IconChurch, src: 'src/assets/services/Вірменська церква.webp' },
-  { name: 'Подільські Товтри',             dist: '2 хв пішки',  Icon: IconLeaf,   src: 'src/assets/services/Подільські Товтри.webp' },
-  { name: 'Центр міста',                   dist: '15 хв пішки', Icon: IconMap,    src: 'src/assets/services/Центр міста.webp' },
+  { name: "Кам'янець-Подільська фортеця", dist: '11 хв пішки', Icon: IconTower,  src: imgFortress  },
+  { name: 'Катедральний костьол',          dist: '6 хв пішки',  Icon: IconChurch, src: imgCathedral },
+  { name: 'Музей Мініатюр',               dist: '5 хв пішки',  Icon: IconMuseum, src: imgMuseum    },
+  { name: 'Вірменська церква',             dist: '5 хв пішки',  Icon: IconChurch, src: imgArmenian  },
+  { name: 'Подільські Товтри',             dist: '2 хв пішки',  Icon: IconLeaf,   src: imgTovtry    },
+  { name: 'Центр міста',                   dist: '15 хв пішки', Icon: IconMap,    src: imgCenter    },
 ];
 
-function ServiceItem({ service, index }) {
+// Мемоізовано — не перерендерується при прокрутці каруселі
+const ServiceItem = memo(function ServiceItem({ service, index }) {
   const { ref, inView } = useInView({ threshold: 0.1 });
   return (
     <div
@@ -48,35 +56,40 @@ function ServiceItem({ service, index }) {
       </div>
     </div>
   );
-}
+});
 
-// Loop-aware scale tween — official Embla approach for loop mode
+// Loop-aware scale tween
 function applyScales(emblaApi, slideNodes) {
   if (!emblaApi) return;
 
-  const engine         = emblaApi.internalEngine();
   const scrollProgress = emblaApi.scrollProgress();
   const snapList       = emblaApi.scrollSnapList();
+
+  // Безпечний доступ до loopPoints
+  let loopPoints = [];
+  try {
+    loopPoints = emblaApi.internalEngine()?.slideLooper?.loopPoints ?? [];
+  } catch {
+    loopPoints = [];
+  }
 
   snapList.forEach((snapPos, snapIdx) => {
     let diff = snapPos - scrollProgress;
 
-    // Adjust diff for looped clones
-    if (engine.options.loop) {
-      engine.slideLooper.loopPoints.forEach((lp) => {
-        const target = lp.target();
-        if (lp.index === snapIdx && target !== 0) {
-          diff = target < 0
-            ? snapPos - (1 + scrollProgress)
-            : snapPos + (1 - scrollProgress);
-        }
-      });
-    }
+    // Корегування diff для клонованих слайдів
+    loopPoints.forEach((lp) => {
+      const target = lp.target?.() ?? 0;
+      if (lp.index === snapIdx && target !== 0) {
+        diff = target < 0
+          ? snapPos - (1 + scrollProgress)
+          : snapPos + (1 - scrollProgress);
+      }
+    });
 
     const absDiff = Math.abs(diff);
-    const scale   = Math.max(0.70, 1 - absDiff * 1.2 * 0.25);
-    const opacity = Math.max(0.30, 1 - absDiff * 1.2 * 0.60);
-    const bright  = Math.max(0.50, 1 - absDiff * 1.2 * 0.45);
+    const scale   = Math.max(0.72, 1 - absDiff * 0.30);
+    const opacity = Math.max(0.30, 1 - absDiff * 0.72);
+    const bright  = Math.max(0.50, 1 - absDiff * 0.54);
 
     const node = slideNodes[snapIdx];
     if (!node) return;
@@ -85,11 +98,11 @@ function applyScales(emblaApi, slideNodes) {
     node.style.opacity   = opacity.toFixed(4);
 
     const img = node.querySelector('.lm-card__img img');
-    if (img) img.style.filter = absDiff < 0.01 ? 'none' : `brightness(${bright.toFixed(4)})`;
+    if (img) img.style.filter = absDiff < 0.02 ? 'none' : `brightness(${bright.toFixed(4)})`;
 
     const caption = node.querySelector('.lm-card__caption');
     if (caption) {
-      const isCenter = absDiff < 0.01;
+      const isCenter = absDiff < 0.02;
       caption.style.opacity   = isCenter ? '1' : '0';
       caption.style.transform = isCenter ? 'none' : 'translateY(10px)';
     }
@@ -97,33 +110,33 @@ function applyScales(emblaApi, slideNodes) {
 }
 
 export default function Services() {
-  const header     = useRevealClass('');
-  const lmRef      = useRevealClass('');
-  const slideRefs  = useRef([]);
+  const header    = useRevealClass('');
+  const lmRef     = useRevealClass('');
+  const slideRefs = useRef([]);
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop:          true,
     align:         'center',
     containScroll: false,
     dragFree:      false,
+    startIndex:    2,            // ← починаємо з 3-го слайда (індекс 2)
+    loopAdditionalSlides: 2,
   });
 
-  // Wire up direct DOM updates — zero React re-renders
   useEffect(() => {
     if (!emblaApi) return;
-
-    const nodes = slideRefs.current;
+    const nodes  = slideRefs.current;
     const update = () => applyScales(emblaApi, nodes);
 
-    emblaApi.on('scroll',     update);
-    emblaApi.on('reInit',     update);
-    emblaApi.on('settle',     update);
+    emblaApi.on('scroll',  update);
+    emblaApi.on('reInit',  update);
+    emblaApi.on('settle',  update);
     update();
 
     return () => {
-      emblaApi.off('scroll', update);
-      emblaApi.off('reInit', update);
-      emblaApi.off('settle', update);
+      emblaApi.off('scroll',  update);
+      emblaApi.off('reInit',  update);
+      emblaApi.off('settle',  update);
     };
   }, [emblaApi]);
 
@@ -196,7 +209,7 @@ export default function Services() {
                     >
                       <div className="lm-card">
                         <div className="lm-card__img">
-                          <img src={lm.src} alt={lm.name} loading="lazy" />
+                          <img src={lm.src} alt={lm.name} loading="lazy" decoding="async" />
                         </div>
                         <div className="lm-card__caption">
                           <span className="lm-card__caption-icon" aria-hidden="true">

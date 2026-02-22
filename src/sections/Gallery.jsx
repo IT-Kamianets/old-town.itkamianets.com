@@ -1,22 +1,34 @@
 // sections/Gallery.jsx
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, memo } from 'react';
 import { useRevealClass } from '../hooks/useInView';
 import './Gallery.css';
 
+// ← Імпорти замість рядків — Vite обробить правильно і на GitHub Pages
+import photo1  from '../assets/gallery/photo1.webp';
+import photo2  from '../assets/gallery/photo2.webp';
+import photo9  from '../assets/gallery/photo9.webp';
+import photo4  from '../assets/gallery/photo4.webp';
+import photo5  from '../assets/gallery/photo5.webp';
+import photo6  from '../assets/gallery/photo6.webp';
+import photo7  from '../assets/gallery/photo7.webp';
+import photo8  from '../assets/gallery/photo8.webp';
+import photo13 from '../assets/gallery/photo13.webp';
+
 const PHOTOS = [
-  { src: 'src/assets/gallery/photo1.webp', alt: 'Фото 1', span: 'wide'  },
-  { src: 'src/assets/gallery/photo2.webp', alt: 'Фото 2', span: ''      },
-  { src: 'src/assets/gallery/photo9.webp', alt: 'Фото 3', span: 'tall'  },
-  { src: 'src/assets/gallery/photo4.webp', alt: 'Фото 4', span: ''      },
-  { src: 'src/assets/gallery/photo5.webp', alt: 'Фото 5', span: ''      },
-  { src: 'src/assets/gallery/photo6.webp', alt: 'Фото 6', span: 'wide'  },
-  { src: 'src/assets/gallery/photo7.webp', alt: 'Фото 7', span: ''      },
-  { src: 'src/assets/gallery/photo8.webp', alt: 'Фото 8', span: ''      },
-  { src: 'src/assets/gallery/photo13.webp', alt: 'Фото 9', span: ''      }
+  { src: photo1,  alt: 'Фото 1', span: 'wide'  },
+  { src: photo2,  alt: 'Фото 2', span: ''      },
+  { src: photo9,  alt: 'Фото 3', span: 'tall'  },
+  { src: photo4,  alt: 'Фото 4', span: ''      },
+  { src: photo5,  alt: 'Фото 5', span: ''      },
+  { src: photo6,  alt: 'Фото 6', span: 'wide'  },
+  { src: photo7,  alt: 'Фото 7', span: ''      },
+  { src: photo8,  alt: 'Фото 8', span: ''      },
+  { src: photo13, alt: 'Фото 9', span: ''      },
 ];
 
-function Lightbox({ photo, onClose, onPrev, onNext }) {
+// memo — уникаємо перерендерів lightbox при зміні index
+const Lightbox = memo(function Lightbox({ photo, onClose, onPrev, onNext }) {
   return (
     <div className="lightbox" onClick={onClose} role="dialog" aria-modal="true" aria-label="Перегляд фото">
       <button className="lightbox__close" onClick={onClose} aria-label="Закрити">✕</button>
@@ -28,7 +40,7 @@ function Lightbox({ photo, onClose, onPrev, onNext }) {
       <button className="lightbox__next" onClick={(e) => { e.stopPropagation(); onNext(); }} aria-label="Наступне">›</button>
     </div>
   );
-}
+});
 
 export default function Gallery() {
   const [lightboxIdx, setLightboxIdx] = useState(null);
@@ -67,6 +79,7 @@ export default function Gallery() {
                   src={photo.src}
                   alt={photo.alt}
                   loading="lazy"
+                  decoding="async"
                   className="gallery__img"
                 />
                 <div className="gallery__item-overlay">

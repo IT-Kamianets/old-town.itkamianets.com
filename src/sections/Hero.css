@@ -10,10 +10,12 @@
   color: var(--color-white);
 }
 
-/* Background & Parallax */
+/* Background & Parallax
+   Виходимо за межі на 20% зверху та знизу —
+   це дає простір для паралакс-зміщення без чорних смуг */
 .hero__bg-wrap {
   position: absolute;
-  inset: 0%;  /* extra space for parallax movement */
+  inset: -12% 0;   /* ← було 0%, тепер є запас для паралакса */
   z-index: 0;
 }
 
@@ -21,7 +23,7 @@
   width: 100%;
   height: 100%;
   background-size: cover;
-  background-position: center 30%;
+  background-position: center top; /* ← було center 30%, тепер не обрізає верх */
   will-change: transform;
 }
 
