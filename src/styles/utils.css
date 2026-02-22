@@ -1,0 +1,27 @@
+/* Append to main.css — global utility styles */
+
+/* Skip to content link (accessibility) */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-sm);
+  background: var(--color-burgundy);
+  color: #fff;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  font-size: 0.8rem;
+  z-index: 9999;
+  transition: top var(--trans-fast);
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Text alignment utility */
+.text-center { text-align: center; }
+
+/* Ensure sections have correct scroll offset for fixed header */
+section[id] {
+  scroll-margin-top: var(--header-h);
+}

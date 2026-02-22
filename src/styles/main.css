@@ -1,0 +1,265 @@
+/* ============================================
+   ГОСТЕРІЯ OLD TOWN — DESIGN SYSTEM
+   Kamianets-Podilskyi, Ukraine
+   ============================================ */
+
+/* --- GOOGLE FONTS --- */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap');
+
+/* --- DESIGN TOKENS --- */
+:root {
+  /* Colors */
+  --color-bg:          #FAF7F2;
+  --color-bg-alt:      #F2EBE0;
+  --color-stone:       #C9B99A;
+  --color-stone-light: #E8DDD0;
+  --color-wood:        #3D2B1F;
+  --color-wood-light:  #6B4F3A;
+  --color-burgundy:    #7A1C1C;
+  --color-burgundy-lt: #9E3030;
+  --color-text:        #2C1F14;
+  --color-text-muted:  #7A6B5D;
+  --color-white:       #FDFAF6;
+  --color-border:      rgba(61, 43, 31, 0.12);
+
+  /* Typography */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'Jost', system-ui, sans-serif;
+
+  /* Spacing scale */
+  --space-xs:  0.5rem;    /* 8px  */
+  --space-sm:  1rem;      /* 16px */
+  --space-md:  1.5rem;    /* 24px */
+  --space-lg:  2.5rem;    /* 40px */
+  --space-xl:  4rem;      /* 64px */
+  --space-2xl: 6rem;      /* 96px */
+  --space-3xl: 9rem;      /* 144px */
+
+  /* Layout */
+  --container-max: 1280px;
+  --container-pad: 2rem;
+  --header-h:      80px;
+
+  /* Radius */
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  16px;
+
+  /* Shadows */
+  --shadow-sm:  0 2px 8px rgba(44, 31, 20, 0.08);
+  --shadow-md:  0 8px 32px rgba(44, 31, 20, 0.12);
+  --shadow-lg:  0 20px 60px rgba(44, 31, 20, 0.16);
+
+  /* Transitions */
+  --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:   cubic-bezier(0.55, 0, 0.45, 1);
+  --trans-fast: 200ms var(--ease-out);
+  --trans-base: 400ms var(--ease-out);
+  --trans-slow: 700ms var(--ease-out);
+}
+
+/* --- RESET & BASE --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 300;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  padding: 0;
+}
+
+/* Root div Vite renders into */
+#root {
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+/* --- CONTAINER --- */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+/* --- TYPOGRAPHY HELPERS --- */
+.display-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+}
+
+.section-eyebrow {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-burgundy);
+}
+
+/* --- SCROLL ANIMATION SYSTEM --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+}
+
+.reveal.reveal--left {
+  transform: translateX(-40px);
+}
+
+.reveal.reveal--right {
+  transform: translateX(40px);
+}
+
+.reveal.reveal--scale {
+  transform: scale(0.96);
+}
+
+.reveal.in-view {
+  opacity: 1;
+  transform: none;
+}
+
+/* Stagger delays */
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+
+/* --- BUTTONS --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 2rem;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  transition: var(--trans-base);
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--color-burgundy);
+  color: var(--color-white);
+}
+
+.btn-primary:hover {
+  background: var(--color-burgundy-lt);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(122, 28, 28, 0.3);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--color-white);
+  border: 1px solid rgba(255,255,255,0.5);
+}
+
+.btn-outline:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: var(--color-white);
+  transform: translateY(-2px);
+}
+
+.btn-dark {
+  background: var(--color-wood);
+  color: var(--color-white);
+}
+
+.btn-dark:hover {
+  background: var(--color-wood-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* --- SECTION LAYOUT --- */
+.section {
+  padding-block: var(--space-3xl);
+}
+
+.section--alt {
+  background: var(--color-bg-alt);
+}
+
+.section-header {
+  margin-bottom: var(--space-xl);
+}
+
+.section-header .section-eyebrow {
+  margin-bottom: var(--space-sm);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.12;
+  margin-bottom: var(--space-md);
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  max-width: 560px;
+  line-height: 1.8;
+}
+
+/* --- DIVIDER --- */
+.divider {
+  width: 48px;
+  height: 2px;
+  background: var(--color-burgundy);
+  margin-block: var(--space-sm);
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  :root {
+    --container-pad: 1.25rem;
+    --space-3xl:     5rem;
+    --space-2xl:     4rem;
+    --space-xl:      2.5rem;
+  }
+}
