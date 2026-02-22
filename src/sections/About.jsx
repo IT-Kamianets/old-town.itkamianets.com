@@ -2,17 +2,17 @@
 // Hotel story, atmosphere, and key facts — split image/text layout
 
 import { useRevealClass } from '../hooks/useInView';
+import { IconTower, IconHome, IconLeaf, IconCityView } from '../components/Icons';
 import './About.css';
 
 // Replace with actual interior / facade photo
-const ABOUT_IMAGE_1 = 'https://images.unsplash.com/photo-1598928636135-d146006ff4be?w=900&q=80';
-const ABOUT_IMAGE_2 = 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80';
+const ABOUT_IMAGE_1 = 'src/assets/about.webp';
 
 const highlights = [
-  { icon: '🏰', label: 'Середньовічне оточення', desc: "Кам'янець-Подільський замок за 19 хвилин пішки" },
-  { icon: '🏡', label: 'Сімейний заклад',         desc: 'Затишок і персональний підхід до кожного гостя' },
-  { icon: '🌿', label: 'Натуральні матеріали',     desc: "Кам'яні стіни, дерево, автентична атмосфера" },
-  { icon: '🌇', label: 'Вид на місто',             desc: 'З кожного номера відкривається панорама Старого міста' },
+  { Icon: IconTower,    label: 'Середньовічне оточення', desc: "Кам'янець-Подільський замок за 19 хвилин пішки" },
+  { Icon: IconHome,     label: 'Сімейний заклад',         desc: 'Затишок і персональний підхід до кожного гостя' },
+  { Icon: IconLeaf,     label: 'Натуральні матеріали',     desc: "Кам'яні стіни, дерево, автентична атмосфера" },
+  { Icon: IconCityView, label: 'Вид на місто',             desc: 'З кожного номера відкривається панорама Старого міста' },
 ];
 
 export default function About() {
@@ -26,25 +26,14 @@ export default function About() {
 
         <div className="about__layout">
 
-          {/* Left — images stacked */}
+        {/* Left — single image */}
           <div ref={imgWrap.ref} className={`about__images ${imgWrap.className}`}>
             <div className="about__img-main">
               <img
                 src={ABOUT_IMAGE_1}
-                alt="Інтер'єр Гостерії Old Town — затишна вітальня з кам'яними стінами"
+                alt="Інтер'єр Гостерії Old Town — затишна атмосфера"
                 loading="lazy"
               />
-            </div>
-            <div className="about__img-accent">
-              <img
-                src={ABOUT_IMAGE_2}
-                alt="Деталь інтер'єру — дерево і камінь"
-                loading="lazy"
-              />
-              <div className="about__badge">
-                <span className="about__badge-year">Старе місто</span>
-                <span className="about__badge-text">Кам'янець-Подільський</span>
-              </div>
             </div>
           </div>
 
@@ -78,9 +67,11 @@ export default function About() {
 
             {/* Highlights grid */}
             <ul className="about__highlights" aria-label="Ключові переваги">
-              {highlights.map(({ icon, label, desc }) => (
+              {highlights.map(({ Icon, label, desc }) => (
                 <li key={label} className="about__highlight">
-                  <span className="about__highlight-icon" aria-hidden="true">{icon}</span>
+                  <span className="about__highlight-icon">
+                    <Icon width={22} height={22} />
+                  </span>
                   <div>
                     <strong>{label}</strong>
                     <p>{desc}</p>

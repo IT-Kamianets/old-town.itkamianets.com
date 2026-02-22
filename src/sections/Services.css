@@ -1,23 +1,19 @@
 /* sections/Services.css */
 
-.services {
-  padding-block: 0;
-}
+.services { padding-block: 0; }
 
+/* ── Dark grid ── */
 .services__dark-part {
   background: var(--color-wood);
   padding-block: var(--space-3xl);
   position: relative;
   overflow: hidden;
 }
-
-/* Decorative texture overlay */
 .services__dark-part::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(ellipse 70% 50% at 100% 50%, rgba(122,28,28,0.15), transparent);
+  background: radial-gradient(ellipse 70% 50% at 100% 50%, rgba(122,28,28,0.15), transparent);
   pointer-events: none;
 }
 
@@ -27,140 +23,173 @@
   gap: var(--space-lg) var(--space-xl);
   margin-top: var(--space-xl);
 }
-
-/* Service item */
 .service-item {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-sm);
-  opacity: 0;
-  transform: translateY(24px);
+  display: flex; align-items: flex-start; gap: var(--space-sm);
+  opacity: 0; transform: translateY(24px);
   transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
 }
+.service-item--visible { opacity: 1; transform: none; }
+.service-item__icon    { color: var(--color-stone); flex-shrink: 0; margin-top: 2px; }
+.service-item__title   { font-size: 0.88rem; font-weight: 500; color: var(--color-white); margin-bottom: 4px; letter-spacing: 0.02em; }
+.service-item__desc    { font-size: 0.8rem; color: var(--color-stone); line-height: 1.6; }
 
-.service-item--visible {
-  opacity: 1;
-  transform: none;
-}
-
-.service-item__icon {
-  font-size: 1.5rem;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.service-item__title {
-  font-size: 0.88rem;
-  font-weight: 500;
-  color: var(--color-white);
-  margin-bottom: 4px;
-  letter-spacing: 0.02em;
-}
-
-.service-item__desc {
-  font-size: 0.8rem;
-  color: var(--color-stone);
-  line-height: 1.6;
-}
-
-/* Landmarks section */
+/* ── Landmarks ── */
 .landmarks {
   background: var(--color-bg-alt);
-  border-radius: var(--radius-lg);
-  padding: var(--space-xl);
-  margin-block: var(--space-xl);
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: var(--space-xl);
-  align-items: center;
-  box-shadow: var(--shadow-sm);
+  padding-block: var(--space-3xl);
 }
 
-.landmarks__header {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  border-right: 1px solid var(--color-border);
-  padding-right: var(--space-xl);
+.landmarks__inner {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-left: var(--container-pad);
+  align-items: center;
+  gap: var(--space-2xl);
 }
 
 .landmarks__title {
   font-family: var(--font-display);
-  font-size: 1.8rem;
+  font-size: 2.2rem;
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1.15;
   color: var(--color-text);
+  margin-top: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+.landmarks__title em { font-style: italic; color: var(--color-wood-light); }
+
+.landmarks__sub {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  margin-bottom: var(--space-lg);
 }
 
-.landmarks__list {
-  list-style: none;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-md);
+.landmarks__arrows { display: flex; gap: var(--space-sm); }
+
+.lm-arrow {
+  width: 42px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  color: var(--color-wood);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background var(--trans-fast), color var(--trans-fast), box-shadow var(--trans-fast);
+}
+.lm-arrow:hover {
+  background: var(--color-wood);
+  color: var(--color-white);
+  box-shadow: var(--shadow-md);
 }
 
-.landmark-item {
+/* ── Embla ── */
+.landmarks__carousel { overflow: hidden; }
+
+.embla { overflow: hidden; }
+
+.embla__container {
+  display: flex;
+  align-items: center; /* вертикальне центрування допомагає при різних висотах */
+  gap: 16px;
+}
+
+/* ── Slide — базово зменшений, scale міняється через JS напряму ── */
+.lm-slide {
+  flex: 0 0 280px;
+  min-width: 0;
+  transform: scale(0.75);
+  opacity: 0.4;
+  will-change: transform, opacity;
+}
+
+/* ── Card — фіксована висота, масштаб дає ефект "більше/менше" ── */
+.lm-card {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--color-wood);
+  /* висота однакова для всіх, scale збільшує центральну візуально */
+  height: 360px;
+  box-shadow: var(--shadow-md);
+}
+
+.lm-card__img {
+  position: absolute;
+  inset: 0;
+}
+.lm-card__img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  /* filter міняється через JS — без transition щоб не мерехтіло */
+  will-change: filter;
+}
+
+/* ── Caption ── */
+.lm-card__caption {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 2;
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
-  background: var(--color-white);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
-  transition: box-shadow var(--trans-fast), transform var(--trans-fast);
+  padding: var(--space-lg);
+  background: linear-gradient(to top,
+    rgba(20,10,5,0.90) 0%,
+    rgba(20,10,5,0.45) 55%,
+    transparent        100%
+  );
+  /* opacity і transform міняються через JS */
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out);
+  will-change: opacity, transform;
 }
 
-.landmark-item:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
-}
+.lm-card__caption-icon { color: var(--color-stone-light); flex-shrink: 0; }
 
-.landmark-item__icon {
-  font-size: 1.3rem;
-  flex-shrink: 0;
-}
-
-.landmark-item strong {
+.lm-card__caption strong {
   display: block;
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: var(--color-text);
-  line-height: 1.3;
-}
-
-.landmark-item span {
-  font-size: 0.72rem;
-  color: var(--color-burgundy);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
   font-weight: 400;
-  letter-spacing: 0.04em;
+  color: #fff;
+  line-height: 1.2;
+}
+.lm-card__caption span {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--color-stone);
+  letter-spacing: 0.08em;
+  margin-top: 3px;
 }
 
-/* Responsive */
+/* ── Responsive ── */
 @media (max-width: 1024px) {
-  .services__grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .services__grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-@media (max-width: 768px) {
-  .landmarks {
+@media (max-width: 860px) {
+  .landmarks__inner {
     grid-template-columns: 1fr;
+    padding-inline: var(--container-pad);
+    gap: var(--space-xl);
   }
-
-  .landmarks__header {
-    border-right: none;
-    border-bottom: 1px solid var(--color-border);
-    padding-right: 0;
-    padding-bottom: var(--space-lg);
+  .landmarks__left    { text-align: center; }
+  .landmarks__arrows  { justify-content: center; }
+  .landmarks__carousel {
+    margin-inline: calc(-1 * var(--container-pad));
   }
+  .lm-slide   { flex: 0 0 240px; }
+  .lm-card    { height: 300px; }
 }
 
 @media (max-width: 600px) {
-  .services__grid {
-    grid-template-columns: 1fr;
-  }
-
-  .landmarks__list {
-    grid-template-columns: 1fr;
-  }
+  .services__grid { grid-template-columns: 1fr; }
+  .lm-slide  { flex: 0 0 200px; }
+  .lm-card   { height: 260px; }
 }

@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react';
 import './Hero.css';
 
 // Replace HERO_IMAGE with actual hotel facade photo
-const HERO_IMAGE = 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1800&q=85';
+const HERO_IMAGE = 'src/assets/hero.webp';
 
 export default function Hero() {
   const bgRef = useRef(null);

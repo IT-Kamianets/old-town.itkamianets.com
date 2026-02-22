@@ -13,7 +13,7 @@
 /* Background & Parallax */
 .hero__bg-wrap {
   position: absolute;
-  inset: -15%;  /* extra space for parallax movement */
+  inset: 0%;  /* extra space for parallax movement */
   z-index: 0;
 }
 
@@ -32,10 +32,12 @@
   z-index: 1;
   background:
     linear-gradient(
-      to top,
-      rgba(20, 10, 5, 0.82) 0%,
-      rgba(20, 10, 5, 0.35) 55%,
-      rgba(20, 10, 5, 0.15) 100%
+      to bottom,
+      rgba(10, 5, 2, 0.55) 0%,
+      rgba(10, 5, 2, 0.15) 25%,
+      rgba(10, 5, 2, 0.05) 45%,
+      rgba(20, 10, 5, 0.45) 65%,
+      rgba(20, 10, 5, 0.85) 100%
     );
 }
 
@@ -43,7 +45,7 @@
 .hero__content {
   position: relative;
   z-index: 2;
-  padding-bottom: var(--space-3xl);
+  padding-bottom: var(--space-2xl);
   width: 100%;
 }
 
@@ -55,10 +57,11 @@
   font-size: 0.7rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--color-stone);
+  color: var(--color-stone-light);
   margin-bottom: var(--space-md);
   opacity: 0;
   animation: fadeUp 0.8s var(--ease-out) 0.3s forwards;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.6);
 }
 
 .hero__eyebrow-dot {
@@ -77,6 +80,7 @@
   margin-bottom: var(--space-lg);
   opacity: 0;
   animation: fadeUp 0.9s var(--ease-out) 0.5s forwards;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.4);
 }
 
 .hero__title em {

@@ -3,12 +3,35 @@
 
 import { useState } from 'react';
 import { useRevealClass } from '../hooks/useInView';
+import { IconPin } from '../components/Icons';
 import './BookingForm.css';
 
+function IconPhone() {
+  return (
+    <svg viewBox="0 0 24 24" width={18} height={18} fill="none" stroke="currentColor"
+         strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.07 11.5 19.8 19.8 0 0 1 3 2.18 2 2 0 0 1 5 0h3a2 2 0 0 1 2 1.72c.127.96.36 1.903.7 2.81a2 2 0 0 1-.45 2.11L9.91 7.09a16 16 0 0 0 6 6l.71-.71a2 2 0 0 1 2.11-.45c.907.34 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+    </svg>
+  );
+}
+
+function IconClock() {
+  return (
+    <svg viewBox="0 0 24 24" width={18} height={18} fill="none" stroke="currentColor"
+         strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </svg>
+  );
+}
+
 const ROOM_OPTIONS = [
-  { value: 'deluxe',  label: 'Номер Делюкс (Queen-size, 15 м², 2 ос.)' },
-  { value: 'quad',    label: 'Чотиримісний Делюкс (25 м², 4 ос.)' },
-  { value: 'family',  label: 'Family з каміном (King-size, 21 м², 4 ос.)' },
+  { value: 'deluxe-1', label: 'Делюкс №1 (Queen-size, 15 м², 2 ос.)' },
+  { value: 'deluxe-2', label: 'Делюкс №2 (Queen-size, 15 м², 2 ос.)' },
+  { value: 'deluxe-3', label: 'Делюкс №3 (Double, 16 м², 2 ос.)' },
+  { value: 'quad',     label: 'Чотиримісний Делюкс (25 м², 4 ос.)' },
+  { value: 'family',   label: 'Family з каміном (King-size, 21 м², 4 ос.)' },
+  { value: 'suite',    label: 'Люкс мансарда (King-size, 30 м², 2 ос.)' },
 ];
 
 const INITIAL = {
@@ -70,28 +93,34 @@ export default function BookingForm() {
 
               <ul className="contact__info-list">
                 <li>
-                  <span>📞</span>
+                  <span><IconPhone /></span>
                   <div>
                     <strong>Телефон</strong>
                     <a href="tel:+380673801949">067 380 1949</a>
                   </div>
                 </li>
                 <li>
-                  <span>📍</span>
+                  <span><IconPin width={18} height={18} /></span>
                   <div>
                     <strong>Адреса</strong>
                     <span>вул. П'ятницька, 8<br />Кам'янець-Подільський, 32301</span>
                   </div>
                 </li>
                 <li>
-                  <span>🕐</span>
+                  <span><IconClock /></span>
                   <div>
                     <strong>Час заїзду / виїзду</strong>
                     <span>Заїзд: 14:00 – 23:59<br />Виїзд: до 11:00</span>
                   </div>
                 </li>
                 <li>
-                  <span>🌐</span>
+                  <span>
+                    <svg viewBox="0 0 24 24" width={18} height={18} fill="none" stroke="currentColor"
+                         strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20" />
+                    </svg>
+                  </span>
                   <div>
                     <strong>Мови спілкування</strong>
                     <span>Українська · Англійська · Російська</span>
