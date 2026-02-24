@@ -58,51 +58,44 @@ const ServiceItem = memo(function ServiceItem({ service, index }) {
   );
 });
 
-// Loop-aware scale tween
-function applyScales(emblaApi, slideNodes) {
+// Scale tween для всіх 18 слайдів (3 копії × 6 пам'яток).
+// Ключ: нормалізуємо diff на (total/6) — щоб сусідній слайд
+// завжди отримував однаковий "відступ" від центру незалежно від кількості слайдів.
+function applyScales(emblaApi) {
   if (!emblaApi) return;
 
   const scrollProgress = emblaApi.scrollProgress();
-  const snapList       = emblaApi.scrollSnapList();
+  const snapList       = emblaApi.scrollSnapList();  // 18 позицій 0–1
+  const nodes          = emblaApi.slideNodes();       // 18 DOM-нодів
+  const total          = snapList.length;             // 18
 
-  // Безпечний доступ до loopPoints
-  let loopPoints = [];
-  try {
-    loopPoints = emblaApi.internalEngine()?.slideLooper?.loopPoints ?? [];
-  } catch {
-    loopPoints = [];
-  }
-
-  snapList.forEach((snapPos, snapIdx) => {
+  snapList.forEach((snapPos, i) => {
     let diff = snapPos - scrollProgress;
 
-    // Корегування diff для клонованих слайдів
-    loopPoints.forEach((lp) => {
-      const target = lp.target?.() ?? 0;
-      if (lp.index === snapIdx && target !== 0) {
-        diff = target < 0
-          ? snapPos - (1 + scrollProgress)
-          : snapPos + (1 - scrollProgress);
-      }
-    });
+    // Найкоротший шлях навколо кола (0→1 = 1→0)
+    if (diff >  0.5) diff -= 1;
+    if (diff < -0.5) diff += 1;
 
-    const absDiff = Math.abs(diff);
+    // Нормалізуємо: з 18 слайдами відстань між сусідами ~0.056,
+    // з 6 — ~0.167. Множимо на (18/6)=3 щоб ефект виглядав однаково.
+    const absDiff = Math.abs(diff) * (total / 6);
+
+    const node = nodes[i];
+    if (!node) return;
+
     const scale   = Math.max(0.72, 1 - absDiff * 0.30);
     const opacity = Math.max(0.30, 1 - absDiff * 0.72);
     const bright  = Math.max(0.50, 1 - absDiff * 0.54);
-
-    const node = slideNodes[snapIdx];
-    if (!node) return;
 
     node.style.transform = `scale(${scale.toFixed(4)})`;
     node.style.opacity   = opacity.toFixed(4);
 
     const img = node.querySelector('.lm-card__img img');
-    if (img) img.style.filter = absDiff < 0.02 ? 'none' : `brightness(${bright.toFixed(4)})`;
+    if (img) img.style.filter = absDiff < 0.06 ? 'none' : `brightness(${bright.toFixed(4)})`;
 
     const caption = node.querySelector('.lm-card__caption');
     if (caption) {
-      const isCenter = absDiff < 0.02;
+      const isCenter = absDiff < 0.06;
       caption.style.opacity   = isCenter ? '1' : '0';
       caption.style.transform = isCenter ? 'none' : 'translateY(10px)';
     }
@@ -112,21 +105,17 @@ function applyScales(emblaApi, slideNodes) {
 export default function Services() {
   const header    = useRevealClass('');
   const lmRef     = useRevealClass('');
-  const slideRefs = useRef([]);
-
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop:          true,
     align:         'center',
     containScroll: false,
     dragFree:      false,
-    startIndex:    2,            // ← починаємо з 3-го слайда (індекс 2)
-    loopAdditionalSlides: 2,
+    startIndex:    8,  // середня копія, 3-й слайд
   });
 
   useEffect(() => {
     if (!emblaApi) return;
-    const nodes  = slideRefs.current;
-    const update = () => applyScales(emblaApi, nodes);
+    const update = () => applyScales(emblaApi);
 
     emblaApi.on('scroll',  update);
     emblaApi.on('reInit',  update);
@@ -199,13 +188,13 @@ export default function Services() {
           <div className="landmarks__carousel">
             <div className="embla" ref={emblaRef}>
               <div className="embla__container">
-                {landmarks.map((lm, i) => {
+                {/* Рендеримо 3 копії — гарантує infinite loop без порожніх місць */}
+                {[...landmarks, ...landmarks, ...landmarks].map((lm, i) => {
                   const LmIcon = lm.Icon;
                   return (
                     <div
-                      key={lm.name}
+                      key={`${lm.name}-${i}`}
                       className="embla__slide lm-slide"
-                      ref={el => slideRefs.current[i] = el}
                     >
                       <div className="lm-card">
                         <div className="lm-card__img">

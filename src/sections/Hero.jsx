@@ -56,7 +56,7 @@ export default function Hero() {
         </div>
 
         <h1 className="hero__title display-title">
-          Гостерія<br />
+          <span className="hero__title-sub">Гостерія</span>
           <em>Old Town</em>
         </h1>
 

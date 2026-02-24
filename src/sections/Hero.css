@@ -15,7 +15,7 @@
    це дає простір для паралакс-зміщення без чорних смуг */
 .hero__bg-wrap {
   position: absolute;
-  inset: -12% 0;   /* ← було 0%, тепер є запас для паралакса */
+  inset: -20% 0;   /* ← було 0%, тепер є запас для паралакса */
   z-index: 0;
 }
 
@@ -75,9 +75,9 @@
 
 /* Main title */
 .hero__title {
-  font-size: clamp(3.5rem, 9vw, 8rem);
+  font-size: clamp(4rem, 10vw, 9.5rem); /* розмір від Old Town */
   font-weight: 400;
-  line-height: 0.95;
+  line-height: 0.9;
   letter-spacing: -0.02em;
   margin-bottom: var(--space-lg);
   opacity: 0;
@@ -85,11 +85,25 @@
   text-shadow: 0 2px 16px rgba(0,0,0,0.4);
 }
 
+/* "Гостерія" — маленький підпис над основною назвою */
+.hero__title-sub {
+  display: block;
+  font-size: clamp(1rem, 2.2vw, 1.7rem); /* ~20% від Old Town */
+  font-weight: 300;
+  font-style: normal;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-stone-light);
+  margin-bottom: 0.2em;
+  opacity: 0.85;
+}
+
+/* "Old Town" — домінантна назва */
 .hero__title em {
   display: block;
   font-style: italic;
-  font-weight: 300;
-  color: var(--color-stone-light);
+  font-weight: 400;
+  color: var(--color-white);
 }
 
 /* Description */
