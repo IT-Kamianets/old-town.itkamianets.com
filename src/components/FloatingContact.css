@@ -2,8 +2,8 @@
 
 .floating-contact {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
+  bottom: max(2rem, calc(1.25rem + env(safe-area-inset-bottom)));
+  right: max(2rem, calc(1.25rem + env(safe-area-inset-right)));
   z-index: 150;
   display: flex;
   flex-direction: column;

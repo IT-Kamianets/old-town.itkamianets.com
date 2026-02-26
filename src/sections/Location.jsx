@@ -75,34 +75,45 @@ const directions = [
   { Icon: IconPlane, how: 'Літак',   desc: 'Аеропорт Чернівці — 90 км, аеропорт Хмельницький — 100 км' },
 ];
 
-// Хук що ініціалізує Leaflet з CDN після монтування компонента
+// Хук що ініціалізує Leaflet з CDN — тільки коли карта входить у viewport
 function useLeafletMap(containerRef) {
   useEffect(() => {
-    // Уникаємо подвійної ініціалізації (React StrictMode)
-    if (containerRef.current?._leaflet_id) return;
+    let loaded = false;
 
-    // Динамічно підтягуємо Leaflet з CDN — не треба npm install
-    const cssLink = document.createElement('link');
-    cssLink.rel  = 'stylesheet';
-    cssLink.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
-    document.head.appendChild(cssLink);
+    function initMap() {
+      if (loaded) return;
+      if (containerRef.current?._leaflet_id) return;
+      loaded = true;
 
-    const script = document.createElement('script');
-    script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-    script.onload = () => {
+      if (!document.querySelector('link[href*="leaflet"]')) {
+        const cssLink = document.createElement('link');
+        cssLink.rel  = 'stylesheet';
+        cssLink.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+        document.head.appendChild(cssLink);
+      }
+
+      if (window.L) {
+        createMap();
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      script.onload = createMap;
+      document.head.appendChild(script);
+    }
+
+    function createMap() {
       const L = window.L;
       if (!containerRef.current || containerRef.current._leaflet_id) return;
 
-      // Ініціалізація карти
       const map = L.map(containerRef.current, {
         center:             [LAT, LNG],
         zoom:               ZOOM,
         zoomControl:        true,
-        scrollWheelZoom:    false, // вимикаємо щоб не заважав скролу сторінки
+        scrollWheelZoom:    false,
         attributionControl: true,
       });
 
-      // CartoDB Positron — чисті мінімалістичні тайли, без API ключа
       L.tileLayer(
         'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
         {
@@ -112,7 +123,6 @@ function useLeafletMap(containerRef) {
         }
       ).addTo(map);
 
-      // Кастомний маркер у стилі сайту (бургандський)
       const markerIcon = L.divIcon({
         className: '',
         html: `
@@ -140,7 +150,6 @@ function useLeafletMap(containerRef) {
         popupAnchor: [0, -40],
       });
 
-      // Маркер з попапом
       L.marker([LAT, LNG], { icon: markerIcon })
         .addTo(map)
         .bindPopup(`
@@ -151,12 +160,25 @@ function useLeafletMap(containerRef) {
           </div>
         `, { maxWidth: 220 })
         .openPopup();
-    };
+    }
 
-    document.head.appendChild(script);
+    // Завантажуємо Leaflet тільки коли контейнер входить у viewport
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          initMap();
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '200px' }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
 
     return () => {
-      // Прибираємо instance при анмаунті
+      observer.disconnect();
       try {
         if (containerRef.current?._leaflet_id && window.L) {
           window.L.map(containerRef.current).remove();

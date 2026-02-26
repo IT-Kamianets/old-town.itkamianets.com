@@ -94,7 +94,7 @@
 .embla__container {
   display: flex;
   align-items: center; /* вертикальне центрування допомагає при різних висотах */
-  gap: 16px;
+  gap: clamp(8px, 2vw, 16px);
 }
 
 /* ── Slide — базово зменшений, scale міняється через JS напряму ── */

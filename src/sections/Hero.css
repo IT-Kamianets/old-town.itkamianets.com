@@ -220,6 +220,11 @@
 
   .hero__ctas {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
+  }
+
+  .hero__ctas .btn {
+    justify-content: center;
+    text-align: center;
   }
 }

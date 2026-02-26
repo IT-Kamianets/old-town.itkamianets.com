@@ -141,7 +141,7 @@
 .form-group select,
 .form-group textarea {
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: 1rem; /* ≥16px — запобігає авто-зуму на iOS */
   color: var(--color-text);
   background: var(--color-bg);
   border: 1px solid var(--color-border);
