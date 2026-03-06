@@ -209,6 +209,10 @@
 
 /* Responsive */
 @media (max-width: 600px) {
+  .hero__bg {
+    background-position: left center;
+  }
+
   .hero__stats {
     display: grid;
     grid-template-columns: 1fr 1fr;

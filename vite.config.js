@@ -17,7 +17,6 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
-          carousel: ['embla-carousel-react'],
         },
       },
     },

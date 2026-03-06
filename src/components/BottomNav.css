@@ -1,0 +1,57 @@
+/* components/BottomNav.css */
+
+.bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: calc(64px + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    background: rgba(250, 247, 242, 0.98);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid var(--color-border);
+    z-index: 1000;
+    box-shadow: 0 -1px 12px rgba(0, 0, 0, 0.05);
+}
+
+.bottom-nav__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: 0.65rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: color var(--trans-fast);
+}
+
+.bottom-nav__link svg {
+    width: 20px;
+    height: 20px;
+}
+
+.bottom-nav__link:hover,
+.bottom-nav__link:active {
+    color: var(--color-burgundy);
+}
+
+.bottom-nav__link--phone {
+    color: var(--color-burgundy);
+    background: rgba(122, 28, 28, 0.05);
+    border-radius: var(--radius-md);
+    margin: 4px;
+}
+
+@media (max-width: 900px) {
+    .bottom-nav {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
+    }
+}

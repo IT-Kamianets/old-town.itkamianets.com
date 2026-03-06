@@ -66,8 +66,8 @@ export default function Hero() {
         </p>
 
         <div className="hero__ctas">
-          <a href="#contact" className="btn btn-primary">
-            Забронювати номер
+          <a href="tel:+380673801949" className="btn btn-primary">
+            Зателефонуй нам
           </a>
           <a href="#rooms" className="btn btn-outline">
             Переглянути номери

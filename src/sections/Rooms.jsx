@@ -10,7 +10,7 @@ import './Rooms.css';
 function IconGuests() {
   return (
     <svg viewBox="0 0 24 24" width={14} height={14} fill="none" stroke="currentColor"
-         strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <circle cx="9" cy="7" r="3" />
       <circle cx="16" cy="8" r="2.5" />
       <path d="M3 21v-2a5 5 0 0 1 10 0v2" />
@@ -22,7 +22,7 @@ function IconGuests() {
 function IconSize() {
   return (
     <svg viewBox="0 0 24 24" width={14} height={14} fill="none" stroke="currentColor"
-         strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <polyline points="15 3 21 3 21 9" />
       <polyline points="9 21 3 21 3 15" />
       <line x1="21" y1="3" x2="14" y2="10" />
@@ -36,73 +36,73 @@ const placeholderIcons = ['🛏', '🛏', '🏠', '🛋', '🔥', '🏔'];
 
 const rooms = [
   {
-    id:       'deluxe-1',
-    name:     'Делюкс №1',
+    id: 'deluxe-1',
+    name: 'Делюкс №1',
     subtitle: 'Queen-size ліжко · 15 м²',
-    image:    null,
-    alt:      'Делюкс №1 — затишний номер з видом на місто',
-    guests:   2,
-    size:     15,
-    desc:     'Затишний номер з паркетною підлогою та терасою з видом на місто. Шумозахисні вікна, повністю обладнана кухня.',
+    image: null,
+    alt: 'Делюкс №1 — затишний номер з видом на місто',
+    guests: 2,
+    size: 15,
+    desc: 'Затишний номер з паркетною підлогою та терасою з видом на місто. Шумозахисні вікна, повністю обладнана кухня.',
     amenities: ['Тераса з видом на місто', 'Кухня з духовкою', 'Пральна машина', 'Телевізор', 'Кавоварка', 'Власна ванна'],
   },
   {
-    id:       'deluxe-2',
-    name:     'Делюкс №2',
+    id: 'deluxe-2',
+    name: 'Делюкс №2',
     subtitle: 'Queen-size ліжко · 15 м²',
-    image:    null,
-    alt:      'Делюкс №2 — світлий номер з паркетом',
-    guests:   2,
-    size:     15,
-    desc:     'Світлий номер з великими вікнами та паркетною підлогою. Тихий куток у серці Старого міста.',
+    image: null,
+    alt: 'Делюкс №2 — світлий номер з паркетом',
+    guests: 2,
+    size: 15,
+    desc: 'Світлий номер з великими вікнами та паркетною підлогою. Тихий куток у серці Старого міста.',
     amenities: ['Тераса з видом на місто', 'Кухня з духовкою', 'Пральна машина', 'Телевізор', 'Кавоварка', 'Власна ванна'],
   },
   {
-    id:       'deluxe-3',
-    name:     'Делюкс №3',
+    id: 'deluxe-3',
+    name: 'Делюкс №3',
     subtitle: 'Double ліжко · 16 м²',
-    image:    null,
-    alt:      "Делюкс №3 — затишний номер з автентичним інтер'єром",
-    guests:   2,
-    size:     16,
-    desc:     "Теплий автентичний інтер'єр з дерев'яними акцентами. Тераса з виходом у внутрішній двір.",
+    image: null,
+    alt: "Делюкс №3 — затишний номер з автентичним інтер'єром",
+    guests: 2,
+    size: 16,
+    desc: "Теплий автентичний інтер'єр з дерев'яними акцентами. Тераса з виходом у внутрішній двір.",
     amenities: ['Тераса у дворик', 'Міні-кухня', 'Телевізор', 'Кавоварка', 'Шумозахисні вікна', 'Власна ванна'],
   },
   {
-    id:       'quad',
-    name:     'Чотиримісний Делюкс',
+    id: 'quad',
+    name: 'Чотиримісний Делюкс',
     subtitle: 'Двоспальне ліжко + диван · 25 м²',
-    image:    null,
-    alt:      'Чотиримісний Делюкс — просторий номер для компанії',
-    guests:   4,
-    size:     25,
-    desc:     'Просторий номер для сімей або компаній. Великий простір, диван, тераса з панорамою міста.',
+    image: null,
+    alt: 'Чотиримісний Делюкс — просторий номер для компанії',
+    guests: 4,
+    size: 25,
+    desc: 'Просторий номер для сімей або компаній. Великий простір, диван, тераса з панорамою міста.',
     amenities: ['Тераса з видом на місто', 'Диван + зона відпочинку', 'Кухня з духовкою', 'Пральна машина', 'Телевізор', 'Власна ванна'],
-    badge:    'Для компаній',
+    badge: 'Для компаній',
   },
   {
-    id:       'family',
-    name:     'Family з каміном',
+    id: 'family',
+    name: 'Family з каміном',
     subtitle: 'King-size ліжко · 21 м²',
-    image:    null,
-    alt:      'Family номер з каміном і терасою',
-    guests:   4,
-    size:     21,
-    desc:     'Сімейний номер з автентичним каміном — ідеальний для романтичного відпочинку або сімейної поїздки.',
+    image: null,
+    alt: 'Family номер з каміном і терасою',
+    guests: 4,
+    size: 21,
+    desc: 'Сімейний номер з автентичним каміном — ідеальний для романтичного відпочинку або сімейної поїздки.',
     amenities: ['Автентичний камін', 'Тераса з панорамою', 'Кухня повністю обладнана', 'Пральна машина', 'Мармурова підлога', 'Власна ванна'],
-    badge:    'Популярний вибір',
+    badge: 'Популярний вибір',
   },
   {
-    id:       'suite',
-    name:     'Люкс мансарда',
+    id: 'suite',
+    name: 'Люкс мансарда',
     subtitle: 'King-size ліжко · 30 м²',
-    image:    null,
-    alt:      'Люкс мансарда — найпросторіший номер з видом на дахи міста',
-    guests:   2,
-    size:     30,
-    desc:     'Найпросторіший номер готелю під дахами Старого міста. Стеля зі стропилами, великі вікна з видом на середньовічні дахи.',
+    image: null,
+    alt: 'Люкс мансарда — найпросторіший номер з видом на дахи міста',
+    guests: 2,
+    size: 30,
+    desc: 'Найпросторіший номер готелю під дахами Старого міста. Стеля зі стропилами, великі вікна з видом на середньовічні дахи.',
     amenities: ['Панорамний вид з мансарди', 'Кухня з духовкою', 'Пральна машина', 'Телевізор', 'Кавоварка', 'Власна ванна з ванною'],
-    badge:    'Найкращий вид',
+    badge: 'Найкращий вид',
   },
 ];
 
@@ -158,16 +158,28 @@ const RoomCard = memo(function RoomCard({ room, index }) {
           ))}
         </ul>
 
-        <a href="#contact" className="btn btn-primary room-card__cta">
-          Дізнатися ціну та забронювати
-        </a>
       </div>
     </article>
   );
 });
 
+import { useRef } from 'react';
+
 export default function Rooms() {
   const header = useRevealClass('');
+  const sliderRef = useRef(null);
+
+  const scrollPrev = () => {
+    if (sliderRef.current) {
+      sliderRef.current.scrollBy({ left: -window.innerWidth * 0.85, behavior: 'smooth' });
+    }
+  };
+
+  const scrollNext = () => {
+    if (sliderRef.current) {
+      sliderRef.current.scrollBy({ left: window.innerWidth * 0.85, behavior: 'smooth' });
+    }
+  };
 
   return (
     <section id="rooms" className="section rooms">
@@ -188,10 +200,18 @@ export default function Rooms() {
           </p>
         </div>
 
-        <div className="rooms__grid">
-          {rooms.map((room, i) => (
-            <RoomCard key={room.id} room={room} index={i} />
-          ))}
+        <div className="rooms__slider-wrap">
+          <button className="rooms__slider-arrow rooms__slider-arrow--left" onClick={scrollPrev} aria-label="Гортати назад" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <div className="rooms__grid" ref={sliderRef}>
+            {rooms.map((room, i) => (
+              <RoomCard key={room.id} room={room} index={i} />
+            ))}
+          </div>
+          <button className="rooms__slider-arrow rooms__slider-arrow--right" onClick={scrollNext} aria-label="Гортати далі" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
         </div>
 
       </div>

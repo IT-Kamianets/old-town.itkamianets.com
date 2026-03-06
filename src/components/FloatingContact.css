@@ -40,7 +40,7 @@
   border-radius: 100px;
   background: var(--item-color, var(--color-wood));
   color: #fff;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.22);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22);
   transition: transform var(--trans-fast), box-shadow var(--trans-fast), opacity 0.2s;
   text-decoration: none;
   white-space: nowrap;
@@ -48,13 +48,21 @@
 
 .floating-contact__item:hover {
   transform: translateX(-4px);
-  box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
 }
 
 /* Стагер для кожного елемента */
-.floating-contact__list .floating-contact__item:nth-child(1) { transition-delay: 0.05s; }
-.floating-contact__list .floating-contact__item:nth-child(2) { transition-delay: 0.10s; }
-.floating-contact__list .floating-contact__item:nth-child(3) { transition-delay: 0.15s; }
+.floating-contact__list .floating-contact__item:nth-child(1) {
+  transition-delay: 0.05s;
+}
+
+.floating-contact__list .floating-contact__item:nth-child(2) {
+  transition-delay: 0.10s;
+}
+
+.floating-contact__list .floating-contact__item:nth-child(3) {
+  transition-delay: 0.15s;
+}
 
 .floating-contact__item-label {
   font-family: var(--font-body);
@@ -70,7 +78,7 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.18);
+  background: rgba(255, 255, 255, 0.18);
   flex-shrink: 0;
 }
 
@@ -134,23 +142,36 @@
 
 /* Keyframes */
 @keyframes floatPulse {
-  0%, 100% { transform: scale(1); opacity: 0.6; }
-  50%       { transform: scale(1.18); opacity: 0; }
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: scale(1.18);
+    opacity: 0;
+  }
 }
 
 /* Responsive — на мобільному трохи менше */
 @media (max-width: 600px) {
   .floating-contact {
-    bottom: 1.25rem;
+    bottom: calc(1.25rem + 64px + env(safe-area-inset-bottom));
     right: 1.25rem;
   }
+
   .floating-contact__trigger {
     width: 50px;
     height: 50px;
   }
+
   .floating-contact__item-label {
-    display: none; /* тільки іконки на дуже малих екранах */
+    display: none;
+    /* тільки іконки на дуже малих екранах */
   }
+
   .floating-contact__item {
     padding: 9px;
     border-radius: 50%;
