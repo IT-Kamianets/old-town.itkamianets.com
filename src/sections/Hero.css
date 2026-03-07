@@ -145,7 +145,8 @@
   height: 100%;
   background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
   transform: skewX(-25deg);
-  animation: shineButton 3s infinite;
+  animation: shineButton 3s ease-in-out infinite;
+  will-change: transform;
 }
 
 @keyframes pulseButton {
@@ -164,15 +165,15 @@
 
 @keyframes shineButton {
   0% {
-    left: -100%;
+    transform: skewX(-25deg) translateX(0);
   }
 
   20% {
-    left: 200%;
+    transform: skewX(-25deg) translateX(600%);
   }
 
   100% {
-    left: 200%;
+    transform: skewX(-25deg) translateX(600%);
   }
 }
 

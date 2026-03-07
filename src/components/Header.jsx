@@ -17,26 +17,42 @@ export default function Header() {
   const [activeSection, setActiveSection] = useState('');
 
   useEffect(() => {
+    let rafId = null;
     const onScroll = () => {
-      setScrolled(window.scrollY > 60);
-
-      // Спрощений scroll-spy для підсвічування точок меню
-      const sections = navLinks.map(link => document.querySelector(link.href));
-      const scrollPos = window.scrollY + window.innerHeight / 3;
-
-      let current = '';
-      sections.forEach((sec) => {
-        if (sec && sec.offsetTop <= scrollPos) {
-          current = '#' + sec.id;
-        }
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 60);
+        rafId = null;
       });
-      setActiveSection(current);
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    // Inial check
     onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
+
+    // Intersection Observer для секцій (оптимізований scroll-spy)
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveSection('#' + entry.target.id);
+        }
+      });
+    }, {
+      rootMargin: '-30% 0px -70% 0px'
+    });
+
+    // Находимо і спостерігаємо за секціями
+    setTimeout(() => {
+      navLinks.forEach(link => {
+        const el = document.querySelector(link.href);
+        if (el) observer.observe(el);
+      });
+    }, 100);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+      observer.disconnect();
+    };
   }, []);
 
   return (
