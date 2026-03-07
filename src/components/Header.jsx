@@ -14,10 +14,28 @@ const navLinks = [
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 60);
+
+      // Спрощений scroll-spy для підсвічування точок меню
+      const sections = navLinks.map(link => document.querySelector(link.href));
+      const scrollPos = window.scrollY + window.innerHeight / 3;
+
+      let current = '';
+      sections.forEach((sec) => {
+        if (sec && sec.offsetTop <= scrollPos) {
+          current = '#' + sec.id;
+        }
+      });
+      setActiveSection(current);
+    };
+
     window.addEventListener('scroll', onScroll, { passive: true });
+    // Inial check
+    onScroll();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
@@ -34,11 +52,22 @@ export default function Header() {
         {/* Desktop Nav */}
         <nav className="header__nav" aria-label="Головна навігація">
           {navLinks.map(({ href, label }) => (
-            <a key={href} href={href} className="header__nav-link">
+            <a
+              key={href}
+              href={href}
+              className={`header__nav-link ${activeSection === href ? 'header__nav-link--active' : ''}`}
+            >
               {label}
             </a>
           ))}
         </nav>
+
+        {/* Mobile Call CTA */}
+        <a href="tel:+380673801949" className="header__mobile-call" aria-label="Зателефонувати">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+          </svg>
+        </a>
 
       </div>
     </header>

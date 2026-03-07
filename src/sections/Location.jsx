@@ -10,7 +10,6 @@ import './Location.css';
 // Координати: вул. П'ятницька, 8, Кам'янець-Подільський
 const LAT = 48.6727;
 const LNG = 26.5848;
-const ZOOM = 16;
 
 function IconBus() {
   return (
@@ -67,125 +66,11 @@ const directions = [
   { Icon: IconTrain, how: 'Потяг', desc: "Залізнична станція Кам'янець-Подільський — 10 хв на таксі" },
 ];
 
-// Хук що ініціалізує Leaflet з CDN — тільки коли карта входить у viewport
-function useLeafletMap(containerRef) {
-  useEffect(() => {
-    let loaded = false;
 
-    function initMap() {
-      if (loaded) return;
-      if (containerRef.current?._leaflet_id) return;
-      loaded = true;
-
-      if (!document.querySelector('link[href*="leaflet"]')) {
-        const cssLink = document.createElement('link');
-        cssLink.rel = 'stylesheet';
-        cssLink.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
-        document.head.appendChild(cssLink);
-      }
-
-      if (window.L) {
-        createMap();
-        return;
-      }
-      const script = document.createElement('script');
-      script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-      script.onload = createMap;
-      document.head.appendChild(script);
-    }
-
-    function createMap() {
-      const L = window.L;
-      if (!containerRef.current || containerRef.current._leaflet_id) return;
-
-      const map = L.map(containerRef.current, {
-        center: [LAT, LNG],
-        zoom: ZOOM,
-        zoomControl: true,
-        scrollWheelZoom: false,
-        attributionControl: true,
-      });
-
-      L.tileLayer(
-        'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-        {
-          attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
-          subdomains: 'abcd',
-          maxZoom: 20,
-        }
-      ).addTo(map);
-
-      const markerIcon = L.divIcon({
-        className: '',
-        html: `
-          <div style="
-            width:36px;height:36px;
-            background:#7A1C1C;
-            border:3px solid #FAF7F2;
-            border-radius:50% 50% 50% 0;
-            transform:rotate(-45deg);
-            box-shadow:0 4px 16px rgba(122,28,28,0.45);
-            position:relative;
-          ">
-            <div style="
-              width:10px;height:10px;
-              background:#FAF7F2;
-              border-radius:50%;
-              position:absolute;
-              top:50%;left:50%;
-              transform:translate(-50%,-50%);
-            "></div>
-          </div>
-        `,
-        iconSize: [36, 36],
-        iconAnchor: [18, 36],
-        popupAnchor: [0, -40],
-      });
-
-      L.marker([LAT, LNG], { icon: markerIcon })
-        .addTo(map)
-        .bindPopup(`
-          <div style="font-family:'Jost',sans-serif;padding:4px 2px;min-width:180px;">
-            <strong style="font-size:1rem;color:#2C1F14;">Гостерія Old Town</strong><br/>
-            <span style="font-size:0.8rem;color:#7A6B5D;">вул. П'ятницька, 8</span><br/>
-            <a href="tel:+380673801949" style="font-size:0.82rem;color:#7A1C1C;font-weight:500;">067 380 1949</a>
-          </div>
-        `, { maxWidth: 220 })
-        .openPopup();
-    }
-
-    // Завантажуємо Leaflet тільки коли контейнер входить у viewport
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          initMap();
-          observer.disconnect();
-        }
-      },
-      { rootMargin: '200px' }
-    );
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
-    return () => {
-      observer.disconnect();
-      try {
-        if (containerRef.current?._leaflet_id && window.L) {
-          window.L.map(containerRef.current).remove();
-        }
-      } catch { }
-    };
-  }, [containerRef]);
-}
 
 export default function Location() {
   const left = useRevealClass('reveal--left');
   const right = useRevealClass('reveal--right');
-  const mapRef = useRef(null);
-
-  useLeafletMap(mapRef);
 
   return (
     <section id="location" className="section section--alt location">
@@ -240,11 +125,19 @@ export default function Location() {
           {/* Right — Leaflet map */}
           <div ref={right.ref} className={`location__map-wrap ${right.className}`}>
             <div className="location__map">
-              <div
-                ref={mapRef}
-                style={{ width: '100%', height: '100%' }}
-                aria-label="Інтерактивна карта розташування Гостерії Old Town"
-              />
+              <iframe
+                src="https://maps.google.com/maps?q=вулиця+П'ятницька+8+Кам'янець-Подільський&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  border: 0,
+                  filter: 'invert(90%) hue-rotate(180deg) brightness(85%) contrast(120%)'
+                }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Google Maps location"
+              ></iframe>
             </div>
             <a
               href="https://maps.google.com/?q=вулиця+П'ятницька+8+Кам'янець-Подільський"

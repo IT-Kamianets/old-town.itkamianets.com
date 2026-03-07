@@ -119,14 +119,27 @@
   text-shadow: none;
 }
 
-.header--scrolled .header__nav-link:hover {
+.header--scrolled .header__nav-link:hover,
+.header--scrolled .header__nav-link--active {
   color: var(--color-text);
 }
 
-/* CTA */
-.header__cta {
-  margin-left: var(--space-sm);
-  flex-shrink: 0;
+.header__nav-link--active::after {
+  transform: scaleX(1);
+}
+
+/* Mobile Call Icon */
+.header__mobile-call {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-burgundy);
+  color: var(--color-white);
+  margin-left: auto;
+  box-shadow: var(--shadow-sm);
 }
 
 /* Responsive */

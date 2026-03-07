@@ -94,15 +94,7 @@ export default function Footer() {
           © {YEAR} Гостерія «Old Town», Кам'янець-Подільський.
           Усі права захищені.
         </p>
-        <p className="footer__bottom-dev">
-          Розроблено з{' '}
-          <svg viewBox="0 0 24 24" width={13} height={13} fill="currentColor"
-            style={{ display: 'inline', verticalAlign: 'middle', marginBottom: 2, color: 'var(--color-burgundy)' }}
-            aria-hidden="true">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-          </svg>{' '}
-          для Поділля
-        </p>
+
       </div>
     </footer>
   );

@@ -193,41 +193,70 @@
   margin-top: var(--space-sm);
 }
 
+.room-card__btn-wrap {
+  display: none;
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+  justify-content: center;
+}
+
+.room-card__btn {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--color-burgundy);
+  color: var(--color-white);
+  padding: 12px 24px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all var(--trans-base);
+}
+
+.room-card__btn:hover {
+  background: var(--color-burgundy-lt);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
 /* Slider wrapper */
 .rooms__slider-wrap {
   position: relative;
 }
 
-.rooms__slider-arrow {
+/* Pagination */
+.rooms__pagination {
   display: none;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--color-burgundy);
-  color: #fff;
-  border: none;
-  align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(122, 28, 28, 0.4);
-  z-index: 10;
+  align-items: center;
+  gap: 8px;
+  margin-top: var(--space-md);
+  padding-bottom: var(--space-sm);
+}
+
+.rooms__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-border);
+  border: none;
+  padding: 0;
   cursor: pointer;
-  transition: transform var(--trans-fast), background var(--trans-fast);
+  transition: all var(--trans-base);
 }
 
-.rooms__slider-arrow--left {
-  left: -10px;
+.rooms__dot:hover {
+  background: var(--color-wood-light);
 }
 
-.rooms__slider-arrow--right {
-  right: -10px;
-}
-
-.rooms__slider-arrow:active {
-  transform: translateY(-50%) scale(0.95);
-  background: var(--color-burgundy-lt);
+.rooms__dot--active {
+  background: var(--color-burgundy);
+  width: 24px;
+  border-radius: 4px;
 }
 
 /* Responsive */
@@ -261,7 +290,11 @@
     scroll-snap-align: center;
   }
 
-  .rooms__slider-arrow {
+  .rooms__pagination {
+    display: flex;
+  }
+
+  .room-card__btn-wrap {
     display: flex;
   }
 }
