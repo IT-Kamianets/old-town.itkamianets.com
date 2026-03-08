@@ -236,9 +236,12 @@
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
     gap: 8px;
     margin: 0 calc(var(--container-pad) * -1);
     padding: 0 var(--container-pad) var(--space-md);
+    scroll-padding-left: var(--container-pad);
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
@@ -247,17 +250,22 @@
     display: none;
   }
 
+  /* Фіксований width (не min-width) — snap чіткий */
   .gallery__item {
-    min-width: 75vw;
-    height: 60vw;
-    scroll-snap-align: center;
+    width: 78vw;
+    min-width: 78vw;
+    height: 58vw;
     flex-shrink: 0;
+    scroll-snap-align: start;
   }
 
   .gallery__item--wide,
   .gallery__item--tall {
     grid-column: auto;
     grid-row: auto;
+    width: 78vw;
+    min-width: 78vw;
+    height: 58vw;
   }
 
   .gallery__pagination {
