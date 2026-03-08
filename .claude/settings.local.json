@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:agentskills.so)",
+      "WebFetch(domain:skillsmp.com)",
+      "Bash(wc -l /d/work/old-town.itkamianets.com/src/**/*.jsx)",
+      "Bash(npm run build)"
+    ]
+  }
+}

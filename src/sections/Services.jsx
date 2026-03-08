@@ -11,31 +11,31 @@ import {
 import './Services.css';
 
 // ← Імпорти замість рядків-шляхів
-import imgFortress  from '../assets/services/Кам\'янець-Подільська фортеця.webp';
+import imgFortress from '../assets/services/Кам\'янець-Подільська фортеця.webp';
 import imgCathedral from '../assets/services/Катедральний костьол.webp';
-import imgMuseum    from '../assets/services/Музей Мініатюр.webp';
-import imgArmenian  from '../assets/services/Вірменська церква.webp';
-import imgTovtry    from '../assets/services/Подільські Товтри.webp';
-import imgCenter    from '../assets/services/Центр міста.webp';
+import imgMuseum from '../assets/services/Музей Мініатюр.webp';
+import imgArmenian from '../assets/services/Вірменська церква.webp';
+import imgTovtry from '../assets/services/Подільські Товтри.webp';
+import imgCenter from '../assets/services/Центр міста.webp';
 
 const services = [
-  { Icon: IconWifi,       title: 'Безкоштовний Wi-Fi',    desc: 'Швидкий інтернет у всіх номерах і спільних зонах.' },
-  { Icon: IconParking,    title: 'Безкоштовне паркування', desc: 'Парковка на вулиці поблизу готелю (потрібне бронювання).' },
-  { Icon: IconKitchen,    title: 'Спільна кухня',           desc: 'Повністю обладнана кухня для самостійного приготування.' },
-  { Icon: IconBreakfast,  title: 'Сніданок у номері',       desc: 'За попереднім замовленням — сніданок прямо в номер.' },
-  { Icon: IconFamily,     title: 'Сімейні номери',          desc: 'Номери до 4 гостей — підходять для сімей з дітьми.' },
-  { Icon: IconSoundproof, title: 'Шумозахист',              desc: 'Всі номери обладнані шумозахисними вікнами.' },
-  { Icon: IconHeritage,   title: 'Спадок Поділля',          desc: "Ми поможемо скласти маршрут по пам'ятках Кам'янця." },
-  { Icon: IconKey,        title: 'Check-in 14:00–23:59',   desc: 'Зручний час заїзду. Check-out — до 11:00.' },
+  { Icon: IconWifi, title: 'Безкоштовний Wi-Fi', desc: 'Швидкий інтернет у всіх номерах і спільних зонах.' },
+  { Icon: IconParking, title: 'Безкоштовне паркування', desc: 'Парковка на вулиці поблизу готелю (потрібне бронювання).' },
+  { Icon: IconKitchen, title: 'Спільна кухня', desc: 'Повністю обладнана кухня для самостійного приготування.' },
+  { Icon: IconBreakfast, title: 'Сніданок у номері', desc: 'За попереднім замовленням — сніданок прямо в номер.' },
+  { Icon: IconFamily, title: 'Сімейні номери', desc: 'Номери до 4 гостей — підходять для сімей з дітьми.' },
+  { Icon: IconSoundproof, title: 'Шумозахист', desc: 'Всі номери обладнані шумозахисними вікнами.' },
+  { Icon: IconHeritage, title: 'Спадок Поділля', desc: "Ми поможемо скласти маршрут по пам'ятках Кам'янця." },
+  { Icon: IconKey, title: 'Check-in 14:00–23:59', desc: 'Зручний час заїзду. Check-out — до 11:00.' },
 ];
 
 const landmarks = [
-  { name: "Кам'янець-Подільська фортеця", dist: '11 хв пішки', Icon: IconTower,  src: imgFortress  },
-  { name: 'Катедральний костьол',          dist: '6 хв пішки',  Icon: IconChurch, src: imgCathedral },
-  { name: 'Музей Мініатюр',               dist: '5 хв пішки',  Icon: IconMuseum, src: imgMuseum    },
-  { name: 'Вірменська церква',             dist: '5 хв пішки',  Icon: IconChurch, src: imgArmenian  },
-  { name: 'Подільські Товтри',             dist: '2 хв пішки',  Icon: IconLeaf,   src: imgTovtry    },
-  { name: 'Центр міста',                   dist: '15 хв пішки', Icon: IconMap,    src: imgCenter    },
+  { name: "Кам'янець-Подільська фортеця", dist: '11 хв пішки', Icon: IconTower, src: imgFortress },
+  { name: 'Катедральний костьол', dist: '6 хв пішки', Icon: IconChurch, src: imgCathedral },
+  { name: 'Музей Мініатюр', dist: '5 хв пішки', Icon: IconMuseum, src: imgMuseum },
+  { name: 'Вірменська церква', dist: '5 хв пішки', Icon: IconChurch, src: imgArmenian },
+  { name: 'Подільські Товтри', dist: '2 хв пішки', Icon: IconLeaf, src: imgTovtry },
+  { name: 'Центр міста', dist: '15 хв пішки', Icon: IconMap, src: imgCenter },
 ];
 
 // Мемоізовано — не перерендерується при прокрутці каруселі
@@ -65,15 +65,15 @@ function applyScales(emblaApi) {
   if (!emblaApi) return;
 
   const scrollProgress = emblaApi.scrollProgress();
-  const snapList       = emblaApi.scrollSnapList();  // 18 позицій 0–1
-  const nodes          = emblaApi.slideNodes();       // 18 DOM-нодів
-  const total          = snapList.length;             // 18
+  const snapList = emblaApi.scrollSnapList();  // 18 позицій 0–1
+  const nodes = emblaApi.slideNodes();       // 18 DOM-нодів
+  const total = snapList.length;             // 18
 
   snapList.forEach((snapPos, i) => {
     let diff = snapPos - scrollProgress;
 
     // Найкоротший шлях навколо кола (0→1 = 1→0)
-    if (diff >  0.5) diff -= 1;
+    if (diff > 0.5) diff -= 1;
     if (diff < -0.5) diff += 1;
 
     // Нормалізуємо: з 18 слайдами відстань між сусідами ~0.056,
@@ -83,12 +83,12 @@ function applyScales(emblaApi) {
     const node = nodes[i];
     if (!node) return;
 
-    const scale   = Math.max(0.72, 1 - absDiff * 0.30);
+    const scale = Math.max(0.72, 1 - absDiff * 0.30);
     const opacity = Math.max(0.30, 1 - absDiff * 0.72);
-    const bright  = Math.max(0.50, 1 - absDiff * 0.54);
+    const bright = Math.max(0.50, 1 - absDiff * 0.54);
 
     node.style.transform = `scale(${scale.toFixed(4)})`;
-    node.style.opacity   = opacity.toFixed(4);
+    node.style.opacity = opacity.toFixed(4);
 
     const img = node.querySelector('.lm-card__img img');
     if (img) img.style.filter = absDiff < 0.06 ? 'none' : `brightness(${bright.toFixed(4)})`;
@@ -96,36 +96,36 @@ function applyScales(emblaApi) {
     const caption = node.querySelector('.lm-card__caption');
     if (caption) {
       const isCenter = absDiff < 0.06;
-      caption.style.opacity   = isCenter ? '1' : '0';
+      caption.style.opacity = isCenter ? '1' : '0';
       caption.style.transform = isCenter ? 'none' : 'translateY(10px)';
     }
   });
 }
 
 export default function Services() {
-  const header    = useRevealClass('');
-  const lmRef     = useRevealClass('');
+  const header = useRevealClass('');
+  const lmRef = useRevealClass('');
   const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop:          true,
-    align:         'center',
+    loop: true,
+    align: 'center',
     containScroll: false,
-    dragFree:      false,
-    startIndex:    8,  // середня копія, 3-й слайд
+    dragFree: false,
+    startIndex: 8,  // середня копія, 3-й слайд
   });
 
   useEffect(() => {
     if (!emblaApi) return;
     const update = () => applyScales(emblaApi);
 
-    emblaApi.on('scroll',  update);
-    emblaApi.on('reInit',  update);
-    emblaApi.on('settle',  update);
+    emblaApi.on('scroll', update);
+    emblaApi.on('reInit', update);
+    emblaApi.on('settle', update);
     update();
 
     return () => {
-      emblaApi.off('scroll',  update);
-      emblaApi.off('reInit',  update);
-      emblaApi.off('settle',  update);
+      emblaApi.off('scroll', update);
+      emblaApi.off('reInit', update);
+      emblaApi.off('settle', update);
     };
   }, [emblaApi]);
 
@@ -171,13 +171,13 @@ export default function Services() {
             <div className="landmarks__arrows">
               <button className="lm-arrow" onClick={prev} aria-label="Попередня">
                 <svg viewBox="0 0 24 24" width={18} height={18} fill="none" stroke="currentColor"
-                     strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="15 18 9 12 15 6" />
                 </svg>
               </button>
               <button className="lm-arrow" onClick={next} aria-label="Наступна">
                 <svg viewBox="0 0 24 24" width={18} height={18} fill="none" stroke="currentColor"
-                     strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="9 18 15 12 9 6" />
                 </svg>
               </button>

@@ -39,7 +39,7 @@
   padding: 10px 16px 10px 14px;
   border-radius: 100px;
   background: var(--item-color, var(--color-wood));
-  color: #fff;
+  color: var(--color-white);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22);
   transition: transform var(--trans-fast), box-shadow var(--trans-fast), opacity 0.2s;
   text-decoration: none;
@@ -88,7 +88,7 @@
   height: 56px;
   border-radius: 50%;
   background: var(--color-burgundy);
-  color: #fff;
+  color: var(--color-white);
   border: none;
   cursor: pointer;
   display: flex;

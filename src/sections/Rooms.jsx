@@ -132,6 +132,8 @@ const RoomCard = memo(function RoomCard({ room, index }) {
             alt={room.alt}
             loading="lazy"
             decoding="async"
+            width="400"
+            height="300"
             className="room-card__img"
           />
         ) : (

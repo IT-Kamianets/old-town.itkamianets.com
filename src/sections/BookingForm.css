@@ -63,7 +63,7 @@
 }
 
 .contact__info-list a:hover {
-  color: #fff;
+  color: var(--color-white);
 }
 
 /* House rules */
@@ -207,7 +207,7 @@
   height: 64px;
   border-radius: 50%;
   background: var(--color-burgundy);
-  color: #fff;
+  color: var(--color-white);
   font-size: 1.5rem;
 }
 

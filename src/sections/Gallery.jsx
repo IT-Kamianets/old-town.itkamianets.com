@@ -31,6 +31,16 @@ const PHOTOS = [
 const Lightbox = memo(function Lightbox({ photo, onClose, onPrev, onNext }) {
   const touchStartX = useRef(null);
 
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft') onPrev();
+      if (e.key === 'ArrowRight') onNext();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [onClose, onPrev, onNext]);
+
   const handleTouchStart = (e) => {
     touchStartX.current = e.touches[0].clientX;
   };
@@ -146,7 +156,7 @@ export default function Gallery() {
                   key={idx}
                   className={`gallery__item gallery__item--${photo.span || 'normal'}`}
                   onClick={() => openLightbox(idx)}
-                  aria-label={`Відкрити фото ${idx + 1}`}
+                  aria-label={`Відкрити: ${photo.alt}`}
                   role="listitem"
                 >
                   <img
@@ -154,6 +164,8 @@ export default function Gallery() {
                     alt={photo.alt}
                     loading="lazy"
                     decoding="async"
+                    width="480"
+                    height="240"
                     className="gallery__img"
                   />
                   <div className="gallery__item-overlay">

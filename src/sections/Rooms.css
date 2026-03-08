@@ -104,7 +104,7 @@
   top: var(--space-sm);
   left: var(--space-sm);
   background: var(--color-burgundy);
-  color: #fff;
+  color: var(--color-white);
   font-size: 0.65rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -187,12 +187,6 @@
   flex-shrink: 0;
 }
 
-.room-card__cta {
-  width: 100%;
-  justify-content: center;
-  margin-top: var(--space-sm);
-}
-
 .room-card__btn-wrap {
   display: none;
   margin-top: var(--space-md);
@@ -247,6 +241,14 @@
   padding: 0;
   cursor: pointer;
   transition: all var(--trans-base);
+  /* Збільшуємо touch target до ~44px без зміни візуального розміру */
+  position: relative;
+}
+
+.rooms__dot::before {
+  content: '';
+  position: absolute;
+  inset: -12px;
 }
 
 .rooms__dot:hover {

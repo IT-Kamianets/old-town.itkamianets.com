@@ -59,7 +59,7 @@
 }
 
 .gallery__item-zoom {
-  color: #fff;
+  color: var(--color-white);
   font-size: 2.5rem;
   font-weight: 200;
   opacity: 0;
@@ -140,7 +140,7 @@
 .lightbox__next {
   position: fixed;
   background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  color: var(--color-white);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 50%;
   width: 48px;
@@ -203,6 +203,14 @@
   padding: 0;
   cursor: pointer;
   transition: all var(--trans-base);
+  /* Збільшуємо touch target до ~44px без зміни візуального розміру */
+  position: relative;
+}
+
+.gallery__dot::before {
+  content: '';
+  position: absolute;
+  inset: -12px;
 }
 
 .gallery__dot:hover {

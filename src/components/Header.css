@@ -107,7 +107,7 @@
 }
 
 .header__nav-link:hover {
-  color: #fff;
+  color: var(--color-white);
 }
 
 .header__nav-link:hover::after {

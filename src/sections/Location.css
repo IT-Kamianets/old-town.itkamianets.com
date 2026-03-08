@@ -128,7 +128,7 @@
 }
 
 .location__map .leaflet-popup-tip {
-  background: #fff;
+  background: var(--color-white);
 }
 
 .location__gmap-btn {

@@ -6,7 +6,7 @@
   top: -100%;
   left: var(--space-sm);
   background: var(--color-burgundy);
-  color: #fff;
+  color: var(--color-white);
   padding: var(--space-xs) var(--space-sm);
   border-radius: 0 0 var(--radius-sm) var(--radius-sm);
   font-size: 0.8rem;

@@ -4,27 +4,6 @@ import './Footer.css';
 
 const YEAR = new Date().getFullYear();
 
-const navCols = [
-  {
-    title: 'Готель',
-    links: [
-      { href: '#about', label: 'Про нас' },
-      { href: '#rooms', label: 'Номери' },
-      { href: '#services', label: 'Сервіси' },
-      { href: '#gallery', label: 'Галерея' },
-    ],
-  },
-  {
-    title: 'Гостям',
-    links: [
-      { href: '#location', label: 'Як дістатися' },
-      { href: '#location', label: 'Контакти' },
-    ],
-  },
-];
-
-
-
 export default function Footer() {
   return (
     <footer className="footer" aria-label="Нижній колонтитул сайту">
