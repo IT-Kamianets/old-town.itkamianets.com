@@ -47,6 +47,8 @@ export default function About() {
                 alt="Інтер'єр Гостерії Old Town — затишна атмосфера"
                 loading="lazy"
                 decoding="async"
+                width="600"
+                height="450"
               />
             </div>
           </div>

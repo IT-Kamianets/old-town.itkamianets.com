@@ -280,3 +280,8 @@ button {
     --space-xl:      2.5rem;
   }
 }
+
+/* Utilities */
+.no-scroll {
+  overflow: hidden !important;
+}

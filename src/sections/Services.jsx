@@ -198,7 +198,7 @@ export default function Services() {
                     >
                       <div className="lm-card">
                         <div className="lm-card__img">
-                          <img src={lm.src} alt={lm.name} loading="lazy" decoding="async" />
+                          <img src={lm.src} alt={lm.name} loading="lazy" decoding="async" width="280" height="200" />
                         </div>
                         <div className="lm-card__caption">
                           <span className="lm-card__caption-icon" aria-hidden="true">

@@ -28,7 +28,7 @@ const PHOTOS = [
 ];
 
 // memo — уникаємо перерендерів lightbox при зміні index
-const Lightbox = memo(function Lightbox({ photo, onClose, onPrev, onNext }) {
+const Lightbox = memo(function Lightbox({ photo, index, total, onClose, onPrev, onNext }) {
   const touchStartX = useRef(null);
 
   useEffect(() => {
@@ -38,7 +38,17 @@ const Lightbox = memo(function Lightbox({ photo, onClose, onPrev, onNext }) {
       if (e.key === 'ArrowRight') onNext();
     };
     document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
+    
+    // Блокуємо скрол
+    document.body.classList.add('no-scroll');
+    const preventDefault = (e) => e.preventDefault();
+    document.addEventListener('touchmove', preventDefault, { passive: false });
+    
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.classList.remove('no-scroll');
+      document.removeEventListener('touchmove', preventDefault);
+    };
   }, [onClose, onPrev, onNext]);
 
   const handleTouchStart = (e) => {
@@ -50,10 +60,9 @@ const Lightbox = memo(function Lightbox({ photo, onClose, onPrev, onNext }) {
     const touchEndX = e.changedTouches[0].clientX;
     const diff = touchStartX.current - touchEndX;
 
-    // Якщо свайпнули більше ніж на 50px
-    if (Math.abs(diff) > 50) {
-      if (diff > 0) onNext();  // свайп вліво -> наступне
-      else onPrev();           // свайп вправо -> попереднє
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) onNext();
+      else onPrev();
     }
     touchStartX.current = null;
   };
@@ -61,16 +70,27 @@ const Lightbox = memo(function Lightbox({ photo, onClose, onPrev, onNext }) {
   return (
     <div className="lightbox" onClick={onClose} role="dialog" aria-modal="true" aria-label="Перегляд фото">
       <button className="lightbox__close" onClick={onClose} aria-label="Закрити">✕</button>
-      <button className="lightbox__prev" onClick={(e) => { e.stopPropagation(); onPrev(); }} aria-label="Попереднє">‹</button>
-      <div
-        className="lightbox__img-wrap"
-        onClick={(e) => e.stopPropagation()}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-      >
-        <img src={photo.src} alt={photo.alt} />
+      
+      <div className="lightbox__content">
+        <button className="lightbox__prev" onClick={(e) => { e.stopPropagation(); onPrev(); }} aria-label="Попереднє">‹</button>
+        
+        <div
+          className="lightbox__img-wrap"
+          onClick={(e) => e.stopPropagation()}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          <img src={photo.src} alt={photo.alt} />
+          <div className="lightbox__counter">
+            {index + 1} / {total}
+          </div>
+        </div>
+
+        <button className="lightbox__next" onClick={(e) => { e.stopPropagation(); onNext(); }} aria-label="Наступне">›</button>
       </div>
-      <button className="lightbox__next" onClick={(e) => { e.stopPropagation(); onNext(); }} aria-label="Наступне">›</button>
+
+      {/* Оптимізація: попереднє завантаження наступного фото */}
+      <link rel="prefetch" href={PHOTOS[(index + 1) % total].src} />
     </div>
   );
 });
@@ -186,6 +206,18 @@ export default function Gallery() {
                 />
               ))}
             </div>
+            
+            <div className="gallery__instagram-wrap">
+              <a href="https://www.instagram.com/oldtown_kp" target="_blank" rel="noopener noreferrer" className="gallery__instagram-link">
+                <svg viewBox="0 0 24 24" width={20} height={20} fill="none" stroke="currentColor"
+                  strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+                Більше фото в Інстаграм
+              </a>
+            </div>
           </div>
 
         </div>
@@ -194,6 +226,8 @@ export default function Gallery() {
       {lightboxIdx !== null && (
         <Lightbox
           photo={PHOTOS[lightboxIdx]}
+          index={lightboxIdx}
+          total={PHOTOS.length}
           onClose={closeLightbox}
           onPrev={prevPhoto}
           onNext={nextPhoto}

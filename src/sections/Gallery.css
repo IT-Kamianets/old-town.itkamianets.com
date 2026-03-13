@@ -82,12 +82,24 @@
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: rgba(10, 5, 2, 0.95);
+  background: rgba(10, 5, 2, 0.98);
+  display: flex;
+  flex-direction: column;
+  padding-top: 80px; /* Місце для кнопки закриття */
+  padding-bottom: 40px;
+  animation: lightboxIn 0.25s var(--ease-out);
+  overflow: hidden;
+  touch-action: none;
+}
+
+.lightbox__content {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-lg);
-  animation: lightboxIn 0.25s var(--ease-out);
+  position: relative;
+  width: 100%;
+  min-height: 0;
 }
 
 @keyframes lightboxIn {
@@ -101,20 +113,33 @@
 }
 
 .lightbox__img-wrap {
-  max-width: 90vw;
-  max-height: 85vh;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-sm);
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  max-width: 90vw;
 }
 
 .lightbox__img-wrap img {
   max-width: 100%;
-  max-height: 80vh;
+  max-height: 100%; /* Фото займає весь доступний простір контейнера */
   object-fit: contain;
   border-radius: var(--radius-md);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
   animation: lightboxImgIn 0.35s var(--ease-out);
+}
+
+.lightbox__counter {
+  margin-top: 15px;
+  color: var(--color-white);
+  font-size: 1rem;
+  font-family: var(--font-display);
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+  font-weight: 300;
 }
 
 @keyframes lightboxImgIn {
@@ -138,45 +163,48 @@
 .lightbox__close,
 .lightbox__prev,
 .lightbox__next {
-  position: fixed;
   background: rgba(255, 255, 255, 0.1);
   color: var(--color-white);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 50%;
-  width: 48px;
-  height: 48px;
+  width: 54px;
+  height: 54px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
   cursor: pointer;
-  transition: background var(--trans-fast);
+  transition: all var(--trans-fast);
   backdrop-filter: blur(4px);
+  z-index: 10;
 }
 
 .lightbox__close:hover,
 .lightbox__prev:hover,
 .lightbox__next:hover {
   background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
 }
 
 .lightbox__close {
-  top: var(--space-lg);
-  right: var(--space-lg);
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
 
 .lightbox__prev {
-  left: var(--space-lg);
+  position: absolute;
+  left: 30px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 1.8rem;
+  font-size: 2rem;
 }
 
 .lightbox__next {
-  right: var(--space-lg);
+  position: absolute;
+  right: 30px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 1.8rem;
+  font-size: 2rem;
 }
 
 /* Slider wrapper */
@@ -271,4 +299,35 @@
   .gallery__pagination {
     display: flex;
   }
+}
+
+/* Instagram link */
+.gallery__instagram-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-xl);
+}
+
+.gallery__instagram-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: var(--color-stone-light);
+  color: var(--color-burgundy);
+  border-radius: 100px;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-style: italic;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all var(--trans-base);
+  border: 1px solid rgba(87, 38, 38, 0.1);
+}
+
+.gallery__instagram-link:hover {
+  background: var(--color-burgundy);
+  color: var(--color-white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }

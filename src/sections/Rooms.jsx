@@ -1,121 +1,153 @@
 // sections/Rooms.jsx
-// Коли фото номерів будуть готові — додай їх так:
-//   import room1 from '../assets/rooms/room1.webp';
-// і встав у поле image: room1
 
-import { memo } from 'react';
+import { memo, useRef, useState, useEffect, useCallback } from 'react';
 import { useRevealClass, useInView } from '../hooks/useInView';
 import './Rooms.css';
 
 function IconGuests() {
   return (
-    <svg viewBox="0 0 24 24" width={14} height={14} fill="none" stroke="currentColor"
-      strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <circle cx="9" cy="7" r="3" />
-      <circle cx="16" cy="8" r="2.5" />
-      <path d="M3 21v-2a5 5 0 0 1 10 0v2" />
-      <path d="M16 11c2.5 0 5 1.5 5 4v2" />
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
     </svg>
   );
 }
 
 function IconSize() {
   return (
-    <svg viewBox="0 0 24 24" width={14} height={14} fill="none" stroke="currentColor"
-      strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <polyline points="15 3 21 3 21 9" />
-      <polyline points="9 21 3 21 3 15" />
-      <line x1="21" y1="3" x2="14" y2="10" />
-      <line x1="3" y1="21" x2="10" y2="14" />
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+      <line x1="9" y1="3" x2="9" y2="21" />
+      <line x1="3" y1="9" x2="21" y2="9" />
     </svg>
   );
 }
 
-// Іконки для заглушок — кожна кімната своя
-const placeholderIcons = ['🛏', '🛏', '🏠', '🛋', '🔥', '🏔'];
-
 const rooms = [
   {
-    id: 'deluxe-1',
-    name: 'Делюкс №1',
-    subtitle: 'Queen-size ліжко · 15 м²',
-    image: null,
-    alt: 'Делюкс №1 — затишний номер з видом на місто',
+    id: 'double-15',
+    name: 'Двомісний номер',
+    subtitle: '1 ліжко · 15 м²',
+    images: [
+      '/images/rooms/double-15m/main.webp',
+      '/images/rooms/double-15m/1.webp',
+      '/images/rooms/double-15m/2.webp',
+      '/images/rooms/double-15m/3.webp',
+      '/images/rooms/double-15m/4.webp',
+    ],
+    alt: 'Двомісний номер з каміном',
     guests: 2,
     size: 15,
-    desc: 'Затишний номер з паркетною підлогою та терасою з видом на місто. Шумозахисні вікна, повністю обладнана кухня.',
-    amenities: ['Тераса з видом на місто', 'Кухня з духовкою', 'Пральна машина', 'Телевізор', 'Кавоварка', 'Власна ванна'],
+    desc: 'Затишний номер із каміном та міні-кухнею. Вид на пам\'ятку, місто та тиху вулицю. Повністю обладнана кухня: духовка, плита, мікрохвильова піч та обідня зона на відкритому повітрі.',
+    amenities: ['Камін', 'Власна кухня (духовка, плита)', 'Пральна машина', 'Телевізор', 'Звукоізоляція', 'Вид на пам\'ятку'],
   },
   {
-    id: 'deluxe-2',
-    name: 'Делюкс №2',
-    subtitle: 'Queen-size ліжко · 15 м²',
-    image: null,
-    alt: 'Делюкс №2 — світлий номер з паркетом',
+    id: 'double-deluxe-15',
+    name: 'Двомісний номер Делюкс',
+    subtitle: 'Окрема ванна · 1 ліжко · 15 м²',
+    images: [
+      '/images/rooms/double-deluxe-15m/main.webp',
+      '/images/rooms/double-deluxe-15m/1.webp',
+      '/images/rooms/double-deluxe-15m/2.webp',
+      '/images/rooms/double-deluxe-15m/3.webp',
+      '/images/rooms/double-deluxe-15m/4.webp',
+      '/images/rooms/double-deluxe-15m/5.webp',
+      '/images/rooms/double-deluxe-15m/6.webp',
+    ],
+    alt: 'Двомісний номер Делюкс',
     guests: 2,
     size: 15,
-    desc: 'Світлий номер з великими вікнами та паркетною підлогою. Тихий куток у серці Старого міста.',
-    amenities: ['Тераса з видом на місто', 'Кухня з духовкою', 'Пральна машина', 'Телевізор', 'Кавоварка', 'Власна ванна'],
+    desc: 'Делюкс із терасою та видом на місто. Міні-кухня з плитою та духовкою. Окрема ванна кімната з душем та ванною, феном та капцями. Звукоізоляція та пральна машина.',
+    amenities: ['Тераса з видом на місто', 'Міні-кухня', 'Ванна та душ', 'Пральна машина', 'Звукоізоляція', 'Фен + капці'],
   },
   {
-    id: 'deluxe-3',
-    name: 'Делюкс №3',
-    subtitle: 'Double ліжко · 16 м²',
-    image: null,
-    alt: "Делюкс №3 — затишний номер з автентичним інтер'єром",
-    guests: 2,
-    size: 16,
-    desc: "Теплий автентичний інтер'єр з дерев'яними акцентами. Тераса з виходом у внутрішній двір.",
-    amenities: ['Тераса у дворик', 'Міні-кухня', 'Телевізор', 'Кавоварка', 'Шумозахисні вікна', 'Власна ванна'],
-  },
-  {
-    id: 'quad',
-    name: 'Чотиримісний Делюкс',
-    subtitle: 'Двоспальне ліжко + диван · 25 м²',
-    image: null,
-    alt: 'Чотиримісний Делюкс — просторий номер для компанії',
-    guests: 4,
-    size: 25,
-    desc: 'Просторий номер для сімей або компаній. Великий простір, диван, тераса з панорамою міста.',
-    amenities: ['Тераса з видом на місто', 'Диван + зона відпочинку', 'Кухня з духовкою', 'Пральна машина', 'Телевізор', 'Власна ванна'],
-    badge: 'Для компаній',
-  },
-  {
-    id: 'family',
-    name: 'Family з каміном',
-    subtitle: 'King-size ліжко · 21 м²',
-    image: null,
-    alt: 'Family номер з каміном і терасою',
-    guests: 4,
+    id: 'family-21',
+    name: 'Сімейний номер',
+    subtitle: 'Окрема ванна · 2 ліжка · 21 м²',
+    images: [
+      '/images/rooms/family-21m/main.webp',
+      '/images/rooms/family-21m/1.webp',
+      '/images/rooms/family-21m/2.webp',
+      '/images/rooms/family-21m/3.webp',
+      '/images/rooms/family-21m/4.webp',
+      '/images/rooms/family-21m/5.webp',
+      '/images/rooms/family-21m/6.webp',
+    ],
+    alt: 'Сімейний номер',
+    guests: 3,
     size: 21,
-    desc: 'Сімейний номер з автентичним каміном — ідеальний для романтичного відпочинку або сімейної поїздки.',
-    amenities: ['Автентичний камін', 'Тераса з панорамою', 'Кухня повністю обладнана', 'Пральна машина', 'Мармурова підлога', 'Власна ванна'],
+    desc: 'Просторий сімейний номер із каміном та диваном. Велика тераса з панорамою міста. Повна кухня та обідня зона. Розміщення до 3 гостей + можливо дитина.',
+    amenities: ['Автентичний камін', 'Диван', 'Велика тераса', 'Повна кухня', 'Пральна машина', 'Звукоізоляція'],
+  },
+  {
+    id: 'family-superior-22',
+    name: 'Покращений сімейний номер',
+    subtitle: '22 м²',
+    images: [
+      '/images/rooms/superior-family-22m/main.webp',
+      '/images/rooms/superior-family-22m/1.webp',
+      '/images/rooms/superior-family-22m/2.webp',
+      '/images/rooms/superior-family-22m/3.webp',
+    ],
+    alt: 'Покращений сімейний номер',
+    guests: 3,
+    size: 22,
+    desc: 'Покращений номер із каміном та плитковою підлогою. Міні-кухня, пральна машина, звукоізоляція. Вид на пам\'ятку та місто.',
+    amenities: ['Камін', 'Міні-кухня', 'Ванна', 'Звукоізоляція', 'Пральна машина', 'Вид на місто'],
     badge: 'Популярний вибір',
   },
   {
-    id: 'suite',
-    name: 'Люкс мансарда',
-    subtitle: 'King-size ліжко · 30 м²',
-    image: null,
-    alt: 'Люкс мансарда — найпросторіший номер з видом на дахи міста',
-    guests: 2,
-    size: 30,
-    desc: 'Найпросторіший номер готелю під дахами Старого міста. Стеля зі стропилами, великі вікна з видом на середньовічні дахи.',
-    amenities: ['Панорамний вид з мансарди', 'Кухня з духовкою', 'Пральна машина', 'Телевізор', 'Кавоварка', 'Власна ванна з ванною'],
-    badge: 'Найкращий вид',
+    id: 'quad-deluxe',
+    name: 'Чотиримісний номер Делюкс',
+    subtitle: '2 ліжка',
+    images: [
+      '/images/rooms/quad-deluxe/main.webp',
+      '/images/rooms/quad-deluxe/1.webp',
+      '/images/rooms/quad-deluxe/2.webp',
+      '/images/rooms/quad-deluxe/3.webp',
+      '/images/rooms/quad-deluxe/4.webp',
+      '/images/rooms/quad-deluxe/5.webp',
+      '/images/rooms/quad-deluxe/6.webp',
+    ],
+    alt: 'Чотиримісний номер Делюкс',
+    guests: 4,
+    size: 20,
+    desc: 'Комфортний чотиримісний простір із безкоштовним Wi-Fi. 2 ліжка, робочий стіл, телевізор. Окрема ванна кімната.',
+    amenities: ['Безкоштовний Wi-Fi', 'Телевізор', 'Робочий стіл', 'Власна ванна', 'Шафа для одягу'],
+  },
+  {
+    id: 'quad-deluxe-25',
+    name: 'Чотиримісний номер Делюкс',
+    subtitle: '25 м²',
+    images: [
+      '/images/rooms/quad-deluxe-25m/main.webp',
+      '/images/rooms/quad-deluxe-25m/1.webp',
+      '/images/rooms/quad-deluxe-25m/2.webp',
+      '/images/rooms/quad-deluxe-25m/3.webp',
+      '/images/rooms/quad-deluxe-25m/4.webp',
+      '/images/rooms/quad-deluxe-25m/5.webp',
+    ],
+    alt: 'Чотиримісний номер Делюкс (25 м²)',
+    guests: 4,
+    size: 25,
+    desc: 'Великий номер із 2 ліжками та диваном. Повністю обладнана міні-кухня з духовкою та плитою. Тераса з видом на місто, пральна машина та звукоізоляція.',
+    amenities: ['Тераса з видом', 'Диван-ліжко', 'Кухня з духовкою', 'Пральна машина', 'Звукоізоляція', 'Душ'],
+    badge: 'Для компаній',
   },
 ];
 
 function RoomPlaceholder({ index, name }) {
   return (
     <div className="room-card__placeholder" aria-label={`Фото ${name} — скоро буде`}>
-      <div className="room-card__placeholder-icon">{placeholderIcons[index] ?? '🛏'}</div>
+      <div className="room-card__placeholder-icon">📸</div>
       <p className="room-card__placeholder-label">Фото скоро</p>
     </div>
   );
 }
 
-const RoomCard = memo(function RoomCard({ room, index }) {
+const RoomCard = memo(function RoomCard({ room, index, openRoomSlider }) {
   const { ref, inView } = useInView({ threshold: 0.1 });
 
   return (
@@ -125,17 +157,22 @@ const RoomCard = memo(function RoomCard({ room, index }) {
       style={{ transitionDelay: `${index * 0.1}s` }}
       aria-label={`Номер: ${room.name}`}
     >
-      <div className="room-card__img-wrap">
-        {room.image ? (
-          <img
-            src={room.image}
-            alt={room.alt}
-            loading="lazy"
-            decoding="async"
-            width="400"
-            height="300"
-            className="room-card__img"
-          />
+      <div className="room-card__img-wrap" onClick={() => openRoomSlider(room)}>
+        {room.images && room.images.length > 0 ? (
+          <>
+            <img
+              src={room.images[0]}
+              alt={room.alt}
+              loading="lazy"
+              decoding="async"
+              width="400"
+              height="300"
+              className="room-card__img"
+            />
+            <div className="room-card__photo-overlay">
+              <span className="room-card__photo-text">Переглянути всі фото</span>
+            </div>
+          </>
         ) : (
           <RoomPlaceholder index={index} name={room.name} />
         )}
@@ -168,18 +205,123 @@ const RoomCard = memo(function RoomCard({ room, index }) {
             Зателефонувати
           </a>
         </div>
-
       </div>
     </article>
   );
 });
 
-import { useRef, useState, useEffect } from 'react';
+const RoomLightbox = memo(function RoomLightbox({ room, onClose }) {
+  const [photoIdx, setPhotoIdx] = useState(0);
+  const touchStartX = useRef(null);
+
+  const onPrev = useCallback(() => {
+    setPhotoIdx(i => (i - 1 + room.images.length) % room.images.length);
+  }, [room.images.length]);
+
+  const onNext = useCallback(() => {
+    setPhotoIdx(i => (i + 1) % room.images.length);
+  }, [room.images.length]);
+
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft') onPrev();
+      if (e.key === 'ArrowRight') onNext();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    
+    // Блокуємо скрол
+    document.body.classList.add('no-scroll');
+    // Блокуємо скрол основної сторінки, але дозволяємо скрол мініатюр
+    const preventDefault = (e) => {
+      if (e.target.closest('.room-lightbox__thumbnails')) return;
+      e.preventDefault();
+    };
+    document.addEventListener('touchmove', preventDefault, { passive: false });
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.classList.remove('no-scroll');
+      document.removeEventListener('touchmove', preventDefault);
+    };
+  }, [onClose, onPrev, onNext]);
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e) => {
+    if (touchStartX.current === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX.current - touchEndX;
+
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) onNext();  
+      else onPrev();           
+    }
+    touchStartX.current = null;
+  };
+
+  const currentPhoto = room.images[photoIdx];
+
+  return (
+    <div className="room-lightbox" role="dialog" aria-modal="true" aria-label={`Фотографії ${room.name}`}>
+      <div className="room-lightbox__overlay" onClick={onClose} />
+      <button className="room-lightbox__close" onClick={onClose} aria-label="Закрити">✕</button>
+      <button className="room-lightbox__prev" onClick={(e) => { e.stopPropagation(); onPrev(); }} aria-label="Попереднє">‹</button>
+      
+      <div className="room-lightbox__content" onClick={onClose}>
+        <div
+          className="room-lightbox__img-wrap"
+          onClick={(e) => e.stopPropagation()}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          <img src={currentPhoto} alt={`Фото ${photoIdx + 1}`} className="room-lightbox__img" />
+          <div className="room-lightbox__counter">
+            {photoIdx + 1} / {room.images.length}
+          </div>
+        </div>
+      </div>
+      
+      <button className="room-lightbox__next" onClick={(e) => { e.stopPropagation(); onNext(); }} aria-label="Наступне">›</button>
+
+      <div className="room-lightbox__thumbnails">
+        <div className="room-lightbox__thumbnails-inner">
+          {room.images.map((src, idx) => (
+            <button
+              key={idx}
+              className={`room-lightbox__thumb ${idx === photoIdx ? 'room-lightbox__thumb--active' : ''}`}
+              onClick={(e) => { e.stopPropagation(); setPhotoIdx(idx); }}
+              aria-label={`Перейти до фото ${idx + 1}`}
+            >
+              <img src={src} alt="" loading="lazy" />
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Оптимізація: попереднє завантаження наступного фото */}
+      <link rel="prefetch" href={room.images[(photoIdx + 1) % room.images.length]} />
+    </div>
+  );
+});
 
 export default function Rooms() {
   const header = useRevealClass('');
   const sliderRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [activeRoom, setActiveRoom] = useState(null);
+
+  const openRoomSlider = useCallback((room) => {
+    setActiveRoom(room);
+    document.body.style.overflow = 'hidden';
+  }, []);
+
+  const closeRoomSlider = useCallback(() => {
+    setActiveRoom(null);
+    document.body.style.overflow = '';
+  }, []);
 
   useEffect(() => {
     const slider = sliderRef.current;
@@ -200,50 +342,38 @@ export default function Rooms() {
       }
     );
 
-    // Затримка гарантує що діти прорендерились
-    const ts = setTimeout(() => {
-      Array.from(slider.children).forEach((child) => observer.observe(child));
-    }, 50);
-
-    return () => {
-      clearTimeout(ts);
-      observer.disconnect();
-    };
+    Array.from(slider.children).forEach((child) => observer.observe(child));
+    return () => observer.disconnect();
   }, []);
 
   const scrollToSlide = (index) => {
     const slider = sliderRef.current;
-    if (!slider || !slider.children[index]) return;
-    slider.children[index].scrollIntoView({
-      behavior: 'smooth',
-      block: 'nearest',
-      inline: 'center'
-    });
+    if (!slider) return;
+    const slides = Array.from(slider.children);
+    if (slides[index]) {
+      slides[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    }
   };
 
   return (
-    <section id="rooms" className="section rooms">
-      <div className="container">
-
-        <div ref={header.ref} className={`section-header ${header.className}`}>
-          <p className="section-eyebrow">Номери</p>
-          <div className="divider" />
-          <h2 className="section-title">
-            Ваш простір<br />
-            <em style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', color: 'var(--color-wood-light)' }}>
-              для відпочинку
-            </em>
-          </h2>
+    <section id="rooms" className="rooms section-p">
+      <div className="container" style={{ position: 'relative' }}>
+        <header className={`section-header ${header.className}`}>
+          <h2 className="section-title">Наші номери</h2>
           <p className="section-subtitle">
-            Шість номерів — кожен з власним характером, терасою та видом на місто.
-            Затишок, камінь, дерево і свіже повітря Поділля.
+            Кожен номер — це поєднання автентичного стилю Кам’янця-Подільського та сучасного комфорту для вашого ідеального відпочинку.
           </p>
-        </div>
+        </header>
 
         <div className="rooms__slider-wrap">
           <div className="rooms__grid" ref={sliderRef}>
-            {rooms.map((room, i) => (
-              <RoomCard key={room.id} room={room} index={i} />
+            {rooms.map((room, idx) => (
+              <RoomCard 
+                key={room.id} 
+                room={room} 
+                index={idx} 
+                openRoomSlider={openRoomSlider}
+              />
             ))}
           </div>
 
@@ -253,14 +383,16 @@ export default function Rooms() {
                 key={i}
                 className={`rooms__dot ${i === activeIndex ? 'rooms__dot--active' : ''}`}
                 onClick={() => scrollToSlide(i)}
-                aria-label={`Перейти до номеру ${i + 1}`}
-                aria-current={i === activeIndex ? 'true' : undefined}
+                aria-label={`Перейти до номера ${i + 1}`}
               />
             ))}
           </div>
         </div>
-
       </div>
+
+      {activeRoom && (
+        <RoomLightbox room={activeRoom} onClose={closeRoomSlider} />
+      )}
     </section>
   );
 }
