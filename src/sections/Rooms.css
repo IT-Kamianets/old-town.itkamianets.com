@@ -1,4 +1,7 @@
 /* sections/Rooms.css */
+.rooms {
+  margin-bottom: var(--space-3xl);
+}
 
 .rooms__grid {
   display: grid;

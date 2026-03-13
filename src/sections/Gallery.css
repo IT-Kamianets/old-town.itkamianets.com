@@ -160,9 +160,11 @@
   text-align: center;
 }
 
-.lightbox__close,
 .lightbox__prev,
 .lightbox__next {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
   background: rgba(255, 255, 255, 0.1);
   color: var(--color-white);
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -175,36 +177,45 @@
   cursor: pointer;
   transition: all var(--trans-fast);
   backdrop-filter: blur(4px);
-  z-index: 10;
+  z-index: 210; /* Вище за контент */
+}
+
+.lightbox__prev {
+  left: 30px;
+}
+
+.lightbox__next {
+  right: 30px;
+}
+
+.lightbox__close {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-white);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--trans-fast);
+  backdrop-filter: blur(4px);
+  z-index: 210;
 }
 
 .lightbox__close:hover,
 .lightbox__prev:hover,
 .lightbox__next:hover {
   background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.lightbox__close:hover {
   transform: scale(1.05);
-}
-
-.lightbox__close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
-
-.lightbox__prev {
-  position: absolute;
-  left: 30px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 2rem;
-}
-
-.lightbox__next {
-  position: absolute;
-  right: 30px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 2rem;
 }
 
 /* Slider wrapper */

@@ -70,24 +70,23 @@ const Lightbox = memo(function Lightbox({ photo, index, total, onClose, onPrev, 
   return (
     <div className="lightbox" onClick={onClose} role="dialog" aria-modal="true" aria-label="Перегляд фото">
       <button className="lightbox__close" onClick={onClose} aria-label="Закрити">✕</button>
+      <button className="lightbox__prev" onClick={(e) => { e.stopPropagation(); onPrev(); }} aria-label="Попереднє">‹</button>
       
       <div className="lightbox__content">
-        <button className="lightbox__prev" onClick={(e) => { e.stopPropagation(); onPrev(); }} aria-label="Попереднє">‹</button>
-        
         <div
           className="lightbox__img-wrap"
           onClick={(e) => e.stopPropagation()}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
-          <img src={photo.src} alt={photo.alt} />
+          <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
           <div className="lightbox__counter">
             {index + 1} / {total}
           </div>
         </div>
-
-        <button className="lightbox__next" onClick={(e) => { e.stopPropagation(); onNext(); }} aria-label="Наступне">›</button>
       </div>
+
+      <button className="lightbox__next" onClick={(e) => { e.stopPropagation(); onNext(); }} aria-label="Наступне">›</button>
 
       {/* Оптимізація: попереднє завантаження наступного фото */}
       <link rel="prefetch" href={PHOTOS[(index + 1) % total].src} />
