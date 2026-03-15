@@ -4,7 +4,9 @@
   padding-block: 0;
 }
 
-/* ── Dark grid ── */
+/* ════════════════════════════════════════════
+   Dark services grid
+═══════════════════════════════════════════ */
 .services__dark-part {
   background: var(--color-wood);
   padding-block: var(--space-3xl);
@@ -20,11 +22,41 @@
   pointer-events: none;
 }
 
+.services__slider-wrap {
+  position: relative;
+  margin-top: var(--space-xl);
+}
+
+.services__embla {
+  overflow: visible;
+}
+
+/* Pagination Dots */
+.services__pagination {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 2rem;
+}
+
+.services__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.4s var(--ease-out);
+}
+
+.services__dot--active {
+  background: var(--color-gold);
+  transform: scale(1.3);
+}
+
 .services__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--space-lg) var(--space-xl);
-  margin-top: var(--space-xl);
 }
 
 .service-item {
@@ -61,109 +93,114 @@
   line-height: 1.6;
 }
 
-/* ── Landmarks ── */
+/* ════════════════════════════════════════════
+   Landmarks
+═══════════════════════════════════════════ */
 .landmarks {
   background: var(--color-bg-alt);
   padding-block: var(--space-3xl);
+  overflow: hidden;
+  /* обрізає marquee */
 }
 
-.landmarks__inner {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  max-width: var(--container-max);
-  margin-inline: auto;
-  padding-left: var(--container-pad);
-  align-items: center;
-  gap: var(--space-2xl);
+/* ── Заголовок ── */
+.landmarks__header {
+  margin-bottom: var(--space-2xl);
+  max-width: 600px;
 }
 
-.landmarks__title {
-  font-family: var(--font-display);
-  font-size: 2.2rem;
-  font-weight: 400;
-  line-height: 1.15;
-  color: var(--color-text);
-  margin-top: var(--space-sm);
-  margin-bottom: var(--space-md);
-}
-
-.landmarks__title em {
+.landmarks__header em {
+  display: block;
   font-style: italic;
-  color: var(--color-wood-light);
+  color: var(--color-gold);
 }
 
-.landmarks__sub {
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
-  line-height: 1.7;
-  margin-bottom: var(--space-lg);
-}
 
-.landmarks__arrows {
-  display: flex;
-  gap: var(--space-sm);
-}
 
-.lm-arrow {
-  width: 42px;
-  height: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  border: 1px solid var(--color-border);
-  background: var(--color-white);
-  color: var(--color-wood);
-  cursor: pointer;
-  box-shadow: var(--shadow-sm);
-  transition: background var(--trans-fast), color var(--trans-fast), box-shadow var(--trans-fast);
-}
-
-.lm-arrow:hover {
-  background: var(--color-wood);
-  color: var(--color-white);
-  box-shadow: var(--shadow-md);
-}
-
-/* ── Embla ── */
-.landmarks__carousel {
-  overflow: hidden;
-}
-
-.embla {
-  overflow: hidden;
-}
-
-.embla__container {
-  display: flex;
-  align-items: center;
-  /* вертикальне центрування допомагає при різних висотах */
-  gap: clamp(8px, 2vw, 16px);
-}
-
-/* ── Slide — базово зменшений, scale міняється через JS напряму ── */
-.lm-slide {
-  flex: 0 0 280px;
-  min-width: 0;
-  transform: scale(0.75);
-  opacity: 0.4;
-  will-change: transform, opacity;
-}
-
-/* ── Card — фіксована висота, масштаб дає ефект "більше/менше" ── */
-.lm-card {
+/* ════════════════════════════════════════════
+   Marquee
+═══════════════════════════════════════════ */
+.lm-marquee-wrap {
   position: relative;
+  /* Виходить за межі container — повна ширина */
+  width: 100%;
+}
+
+/* Gradient fade-маски по краях */
+.lm-marquee-fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: clamp(60px, 10vw, 160px);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.lm-marquee-fade--left {
+  left: 0;
+  background: linear-gradient(to right, var(--color-bg-alt), transparent);
+}
+
+.lm-marquee-fade--right {
+  right: 0;
+  background: linear-gradient(to left, var(--color-bg-alt), transparent);
+}
+
+/* Overflow-контейнер */
+.lm-marquee {
+  overflow: hidden;
+  padding-block: var(--space-sm);
+  /* щоб box-shadow карток не обрізалась */
+}
+
+/* Анімована стрічка */
+.lm-marquee__track {
+  display: flex;
+  gap: var(--space-lg);
+  width: max-content;
+  animation: lm-scroll 38s linear infinite;
+}
+
+/* Пауза при hover на всій секції */
+.lm-marquee-wrap:hover .lm-marquee__track {
+  animation-play-state: paused;
+}
+
+@keyframes lm-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  /* Зміщуємо рівно на 1/3 — одна копія */
+  to {
+    transform: translateX(calc(-100% / 3 - var(--space-lg) / 3));
+  }
+}
+
+/* ════════════════════════════════════════════
+   Картка пам'ятки
+═══════════════════════════════════════════ */
+.lm-card {
+  flex-shrink: 0;
+  width: clamp(220px, 28vw, 320px);
   border-radius: var(--radius-md);
   overflow: hidden;
-  background: var(--color-wood);
-  /* висота однакова для всіх, scale збільшує центральну візуально */
-  height: 360px;
-  box-shadow: var(--shadow-md);
+  background: var(--color-white);
+  box-shadow: 0 2px 16px rgba(40, 20, 5, 0.08);
+  transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
+  cursor: default;
 }
 
+.lm-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(40, 20, 5, 0.14);
+}
+
+/* Фото */
 .lm-card__img {
-  position: absolute;
-  inset: 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--color-wood);
 }
 
 .lm-card__img img {
@@ -171,55 +208,42 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  /* filter міняється через JS — без transition щоб не мерехтіло */
-  will-change: filter;
+  transition: transform 0.55s var(--ease-out);
 }
 
-/* ── Caption ── */
-.lm-card__caption {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 2;
+.lm-card:hover .lm-card__img img {
+  transform: scale(1.05);
+}
+
+/* Нижня частина картки */
+.lm-card__footer {
+  padding: var(--space-md) var(--space-md) var(--space-md);
   display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-lg);
-  background: linear-gradient(to top,
-      rgba(20, 10, 5, 0.90) 0%,
-      rgba(20, 10, 5, 0.45) 55%,
-      transparent 100%);
-  /* opacity і transform міняються через JS */
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out);
-  will-change: opacity, transform;
+  flex-direction: column;
+  gap: 5px;
 }
 
-.lm-card__caption-icon {
-  color: var(--color-stone-light);
-  flex-shrink: 0;
-}
-
-.lm-card__caption strong {
-  display: block;
+.lm-card__name {
   font-family: var(--font-display);
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 400;
-  color: #fff;
-  line-height: 1.2;
+  color: var(--color-text);
+  line-height: 1.3;
 }
 
-.lm-card__caption span {
-  display: block;
-  font-size: 0.7rem;
-  color: var(--color-stone);
-  letter-spacing: 0.08em;
-  margin-top: 3px;
+.lm-card__dist {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
 }
 
-/* ── Responsive ── */
+/* ════════════════════════════════════════════
+   Responsive
+═══════════════════════════════════════════ */
 @media (max-width: 1024px) {
   .services__grid {
     grid-template-columns: repeat(2, 1fr);
@@ -227,47 +251,52 @@
 }
 
 @media (max-width: 860px) {
-  .landmarks__inner {
-    grid-template-columns: 1fr;
-    padding-inline: var(--container-pad);
-    gap: var(--space-xl);
+  .services__pagination {
+    display: flex;
   }
 
-  .landmarks__left {
-    text-align: center;
+  .services__grid {
+    display: flex !important;
+    /* Switch to flex for Embla */
+    grid-template-columns: none;
+    gap: 0;
+    margin-top: 0;
   }
 
-  .landmarks__left .divider {
-    margin-inline: auto;
+  .services__slide {
+    flex: 0 0 75%;
+    min-width: 0;
+    padding-inline: 1rem;
+    height: auto;
   }
 
-  .landmarks__arrows {
-    justify-content: center;
-  }
-
-  .landmarks__carousel {
-    margin-inline: calc(-1 * var(--container-pad));
-  }
-
-  .lm-slide {
-    flex: 0 0 240px;
-  }
-
-  .lm-card {
-    height: 300px;
+  .service-item {
+    opacity: 1;
+    transform: none;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 1.5rem;
+    border-radius: 12px;
+    height: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    flex-direction: column;
   }
 }
 
 @media (max-width: 600px) {
-  .services__grid {
-    grid-template-columns: 1fr;
-  }
-
-  .lm-slide {
-    flex: 0 0 200px;
+  .services__slide {
+    flex: 0 0 88%;
+    padding-inline: 0.5rem;
   }
 
   .lm-card {
-    height: 260px;
+    width: 240px;
+  }
+}
+
+/* Зменшена анімація для користувачів з prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .lm-marquee__track {
+    animation: none;
   }
 }

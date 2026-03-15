@@ -1,95 +1,73 @@
-// sections/About.jsx
-// Hotel story, atmosphere, and key facts — split image/text layout
-
 import { memo } from 'react';
-import { useRevealClass } from '../hooks/useInView';
-import { IconTower, IconHome, IconLeaf, IconCityView } from '../components/Icons';
-import aboutImage from '../assets/about.webp'; // ← імпорт замість рядка
+import { useInView } from '../hooks/useInView';
+import { IconHeritage, IconLeaf, IconMap } from '../components/Icons';
+import aboutImage from '../assets/about.webp';
 import './About.css';
 
 const highlights = [
-  { Icon: IconTower, label: 'Середньовічне оточення', desc: "Кам'янець-Подільський замок за 19 хвилин пішки" },
-  { Icon: IconHome, label: 'Сімейний заклад', desc: 'Затишок і персональний підхід до кожного гостя' },
-  { Icon: IconLeaf, label: 'Натуральні матеріали', desc: "Кам'яні стіни, дерево, автентична атмосфера" },
-  { Icon: IconCityView, label: 'Вид на місто', desc: 'З кожного номера відкривається панорама Старого міста' },
+  { label: 'Автентичність', desc: "Кам'яна кладка та дерево", Icon: IconHeritage },
+  { label: 'Затишок', desc: 'Сімейна атмосфера', Icon: IconLeaf },
+  { label: 'Локація', desc: '19 хв до замку пішки', Icon: IconMap },
 ];
 
-// Мемоізований елемент highlight
-const HighlightItem = memo(function HighlightItem({ Icon, label, desc }) {
-  return (
-    <li className="about__highlight">
-      <span className="about__highlight-icon">
-        <Icon width={22} height={22} />
-      </span>
-      <div>
-        <strong>{label}</strong>
-        <p>{desc}</p>
-      </div>
-    </li>
-  );
-});
-
 export default function About() {
-  const imgWrap = useRevealClass('reveal--left');
-  const text = useRevealClass('reveal--right');
+  const { ref, inView } = useInView({ threshold: 0.5 });
 
   return (
-    <section id="about" className="section section--alt about">
-      <div className="container">
+    <section
+      id="about"
+      className={`about-section ${inView ? 'in-view' : ''}`}
+      ref={ref}
+    >
+      <div className="container about-section__grid">
 
-        <div className="about__layout">
+        <div className="about-section__images">
+          <div className="about-section__img-frame">
+            <img src={aboutImage} alt="Old Town Interior" className="about-section__img" />
+            <div className="about-section__img-overlay" />
+          </div>
+          <div className="about-section__decoration" />
+        </div>
 
-          {/* Left — single image */}
-          <div ref={imgWrap.ref} className={`about__images ${imgWrap.className}`}>
-            <div className="about__img-main">
-              <img
-                src={aboutImage}
-                alt="Інтер'єр Гостерії Old Town — затишна атмосфера"
-                loading="lazy"
-                decoding="async"
-                width="600"
-                height="450"
-              />
-            </div>
+        <div className="about-section__content">
+          <div className="reveal reveal--delay-1">
+            <span className="section-eyebrow">Мистецтво гостинності</span>
+            <h2 className="section-title">
+              Маленький готель з <em>великою душею</em>
+            </h2>
           </div>
 
-          {/* Right — text */}
-          <div ref={text.ref} className={`about__text ${text.className}`}>
-            <p className="section-eyebrow">Про нас</p>
-            <div className="divider" />
-            <h2 className="section-title about__title">
-              Маленький готель<br />
-              <em>з великою душею</em>
-            </h2>
+          <div className="about-section__lead reveal reveal--delay-2">
+            Гостерія «Old Town» — це шість унікальних номерів у самому серці Старого міста.
+          </div>
 
-            <p className="about__lead">
-              Гостерія «Old Town» — це шість унікальних номерів у самому серці
-              Старого міста Кам'янця-Подільського, за кроком від середньовічних
-              кам'яних вулиць і за 19 хвилин пішки від легендарного замку.
-            </p>
-
-            <p className="about__body">
+          <div className="about-section__text reveal reveal--delay-3">
+            <p>
               Тут все сповнене автентикою: кам'яні стіни, паркетні підлоги, натуральне
               дерево в інтер'єрі. Ми пишаємось домашньою атмосферою, де кожен гість
-              відчуває турботу, а не стандартний сервіс. Наша родина зустрічає вас
-              особисто — з ключем, порадою щодо прогулянки і теплим словом.
+              відчуває турботу, а не стандартний сервіс.
             </p>
-
-            <p className="about__body">
-              Кам'янець-Подільський — одне з найкрасивіших міст України, де
-              середньовічна архітектура співіснує зі звичайним пульсом повсякденного
-              життя. Ми раді бути вашим домом тут.
+            <p className="about-section__text-accent">
+              Наша родина зустрічає вас особисто — з ключем, порадою щодо прогулянки і теплим словом.
             </p>
+          </div>
 
-            <ul className="about__highlights" aria-label="Ключові переваги">
-              {highlights.map(({ Icon, label, desc }) => (
-                <HighlightItem key={label} Icon={Icon} label={label} desc={desc} />
-              ))}
-            </ul>
+          <div className="about-section__highlights">
+            {highlights.map((item, idx) => (
+              <div key={idx} className={`about-highlight reveal reveal--delay-${idx + 4}`}>
+                <div className="about-highlight__icon-box">
+                  <item.Icon width={20} height={20} />
+                </div>
+                <div className="about-highlight__txt">
+                  <span className="about-highlight__label">{item.label}</span>
+                  <span className="about-highlight__desc">{item.desc}</span>
+                </div>
+              </div>
+            ))}
+          </div>
 
-            <a href="#rooms" className="btn btn-dark">
-              Переглянути номери
-            </a>
+          <div className="about-section__action reveal reveal--delay-7">
+            <a href="#rooms" className="btn btn-primary">Відкрити номери</a>
           </div>
         </div>
 

@@ -3,88 +3,76 @@
    Kamianets-Podilskyi, Ukraine
    ============================================ */
 
-/* Шрифти завантажуються через <link rel="preload"> в index.html */
-
-/* --- DESIGN TOKENS --- */
 :root {
   /* Colors */
-  --color-bg:          #FAF7F2;
-  --color-bg-alt:      #F2EBE0;
-  --color-stone:       #C9B99A;
-  --color-stone-light: #E8DDD0;
-  --color-wood:        #3D2B1F;
-  --color-wood-light:  #6B4F3A;
-  --color-burgundy:    #7A1C1C;
-  --color-burgundy-lt: #9E3030;
-  --color-text:        #2C1F14;
-  --color-text-muted:  #7A6B5D;
-  --color-white:       #FDFAF6;
-  --color-border:      rgba(61, 43, 31, 0.12);
+  --color-bg: #F5F2EE;
+  --color-bg-alt: #ECEAE4;
+  --color-stone: #B8AFA6;
+  --color-stone-light: #DDD8D2;
+  --color-wood: #1E1C1A;
+  --color-wood-light: #3A3330;
+  --color-burgundy: #6B3A2A;
+  /* теракота замість класичного бордо */
+  --color-burgundy-lt: #8B5240;
+  --color-gold: #8B6A3E;
+  /* стара бронза */
+  --color-text: #1E1C1A;
+  --color-text-muted: #7A7068;
+  --color-white: #F9F7F4;
+  --color-border: rgba(30, 28, 26, 0.10);
 
   /* Typography */
   --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-body:    'Jost', system-ui, sans-serif;
+  --font-body: 'Jost', system-ui, sans-serif;
 
-  /* Spacing scale */
-  --space-xs:  0.5rem;    /* 8px  */
-  --space-sm:  1rem;      /* 16px */
-  --space-md:  1.5rem;    /* 24px */
-  --space-lg:  2.5rem;    /* 40px */
-  --space-xl:  4rem;      /* 64px */
-  --space-2xl: 6rem;      /* 96px */
-  --space-3xl: 9rem;      /* 144px */
+  /* Spacing */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+  --space-2xl: 6rem;
+  --space-3xl: clamp(6rem, 12vw, 10rem);
 
   /* Layout */
   --container-max: 1280px;
   --container-pad: 2rem;
-  --header-h:      80px;
+  --header-h: 80px;
 
   /* Radius */
-  --radius-sm:  4px;
-  --radius-md:  8px;
-  --radius-lg:  16px;
-
-  /* Shadows */
-  --shadow-sm:  0 2px 8px rgba(44, 31, 20, 0.08);
-  --shadow-md:  0 8px 32px rgba(44, 31, 20, 0.12);
-  --shadow-lg:  0 20px 60px rgba(44, 31, 20, 0.16);
+  --radius-sm: 2px;
+  --radius-md: 4px;
 
   /* Transitions */
-  --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in:   cubic-bezier(0.55, 0, 0.45, 1);
-  --trans-fast: 200ms var(--ease-out);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --trans-base: 400ms var(--ease-out);
-  --trans-slow: 700ms var(--ease-out);
 }
 
-/* --- RESET & BASE --- */
-*, *::before, *::after {
+/* Texture Overlay */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Cfilter id='noiseFilter'%3%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3%3C/filter%3%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3%3C/svg%3%3E");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* --- FOCUS VISIBILITY --- */
-*:focus-visible {
-  outline: 2px solid var(--color-burgundy);
-  outline-offset: 3px;
-}
-
-/* --- REDUCED MOTION --- */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
 html {
   scroll-behavior: smooth;
   font-size: 16px;
-  margin: 0;
-  padding: 0;
   overflow-x: hidden;
 }
 
@@ -96,15 +84,6 @@ body {
   line-height: 1.7;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  margin: 0;
-  padding: 0;
-}
-
-/* Root div Vite renders into */
-#root {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
 }
 
 img {
@@ -125,7 +104,6 @@ button {
   font-family: inherit;
 }
 
-/* --- CONTAINER --- */
 .container {
   width: 100%;
   max-width: var(--container-max);
@@ -137,49 +115,60 @@ button {
 .display-title {
   font-family: var(--font-display);
   font-weight: 400;
-  line-height: 1.08;
+  line-height: 1;
   letter-spacing: -0.01em;
 }
 
+.display-title em {
+  font-style: italic;
+  font-family: var(--font-display);
+  color: var(--color-gold);
+}
+
 .section-eyebrow {
-  font-family: var(--font-body);
-  font-weight: 500;
   font-size: 0.7rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--color-burgundy);
+  color: var(--color-gold);
+  display: block;
+  margin-bottom: 0.75rem;
 }
 
-/* --- SCROLL ANIMATION SYSTEM --- */
-.reveal {
-  opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+.divider {
+  width: 40px;
+  height: 2px;
+  background: var(--color-gold);
+  margin-bottom: 1.5rem;
 }
 
-.reveal.reveal--left {
-  transform: translateX(-40px);
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.12;
+  margin-bottom: var(--space-md);
 }
 
-.reveal.reveal--right {
-  transform: translateX(40px);
+.section-subtitle {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  max-width: 60ch;
+  line-height: 1.6;
 }
 
-.reveal.reveal--scale {
-  transform: scale(0.96);
+.section-header {
+  margin-bottom: var(--space-xl);
 }
 
-.reveal.in-view {
-  opacity: 1;
-  transform: none;
+/* --- COMMON SECTIONS --- */
+.section {
+  padding-block: var(--space-3xl);
 }
 
-/* Stagger delays */
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-.reveal-delay-4 { transition-delay: 0.4s; }
-.reveal-delay-5 { transition-delay: 0.5s; }
+.section--alt {
+  padding-block: var(--space-3xl);
+  background-color: var(--color-bg-alt);
+}
 
 /* --- BUTTONS --- */
 .btn {
@@ -194,7 +183,6 @@ button {
   text-transform: uppercase;
   border-radius: var(--radius-sm);
   transition: var(--trans-base);
-  cursor: pointer;
 }
 
 .btn-primary {
@@ -203,21 +191,9 @@ button {
 }
 
 .btn-primary:hover {
-  background: var(--color-burgundy-lt);
+  background: var(--color-wood);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(122, 28, 28, 0.3);
-}
-
-.btn-outline {
-  background: transparent;
-  color: var(--color-white);
-  border: 1px solid rgba(255,255,255,0.5);
-}
-
-.btn-outline:hover {
-  background: rgba(255,255,255,0.1);
-  border-color: var(--color-white);
-  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .btn-dark {
@@ -225,63 +201,59 @@ button {
   color: var(--color-white);
 }
 
-.btn-dark:hover {
-  background: var(--color-wood-light);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+/* --- SCROLL ANIMATIONS --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
 }
 
-/* --- SECTION LAYOUT --- */
-.section {
-  padding-block: var(--space-3xl);
+.reveal.in-view {
+  opacity: 1;
+  transform: none;
 }
 
-.section--alt {
-  background: var(--color-bg-alt);
+.reveal--delay-1 {
+  transition-delay: 0.1s;
 }
 
-.section-header {
-  margin-bottom: var(--space-xl);
+.reveal--delay-2 {
+  transition-delay: 0.2s;
 }
 
-.section-header .section-eyebrow {
-  margin-bottom: var(--space-sm);
+.reveal--delay-3 {
+  transition-delay: 0.3s;
 }
 
-.section-title {
-  font-family: var(--font-display);
-  font-size: clamp(2.2rem, 4vw, 3.5rem);
-  font-weight: 400;
-  line-height: 1.12;
-  margin-bottom: var(--space-md);
+.reveal--delay-4 {
+  transition-delay: 0.4s;
 }
 
-.section-subtitle {
-  font-size: 1rem;
-  color: var(--color-text-muted);
-  max-width: 560px;
-  line-height: 1.8;
+.reveal--delay-5 {
+  transition-delay: 0.5s;
 }
 
-/* --- DIVIDER --- */
-.divider {
-  width: 48px;
-  height: 2px;
-  background: var(--color-burgundy);
-  margin-block: var(--space-sm);
+.reveal--delay-6 {
+  transition-delay: 0.6s;
 }
 
-/* --- RESPONSIVE --- */
+.reveal--delay-7 {
+  transition-delay: 0.7s;
+}
+
+.reveal--delay-8 {
+  transition-delay: 0.8s;
+}
+
+/* --- NO SCROLL FIX --- */
+.no-scroll {
+  overflow: hidden !important;
+  /* Додаємо компенсацію ширини скролбару через CSS-змінну */
+  padding-right: var(--scrollbar-width, 0px) !important;
+}
+
 @media (max-width: 768px) {
   :root {
     --container-pad: 1.25rem;
-    --space-3xl:     5rem;
-    --space-2xl:     4rem;
-    --space-xl:      2.5rem;
   }
-}
-
-/* Utilities */
-.no-scroll {
-  overflow: hidden !important;
 }
