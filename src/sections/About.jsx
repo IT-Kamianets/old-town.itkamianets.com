@@ -31,30 +31,22 @@ export default function About() {
 
         <div className="about-section__content">
           <div className="reveal reveal--delay-1">
-            <span className="section-eyebrow">Мистецтво гостинності</span>
             <h2 className="section-title">
               Маленький готель з <em>великою душею</em>
             </h2>
           </div>
 
-          <div className="about-section__lead reveal reveal--delay-2">
-            Гостерія «Old Town» — це шість унікальних номерів у самому серці Старого міста.
-          </div>
-
-          <div className="about-section__text reveal reveal--delay-3">
+          <div className="about-section__text reveal reveal--delay-2">
             <p>
-              Тут все сповнене автентикою: кам'яні стіни, паркетні підлоги, натуральне
-              дерево в інтер'єрі. Ми пишаємось домашньою атмосферою, де кожен гість
-              відчуває турботу, а не стандартний сервіс.
-            </p>
-            <p className="about-section__text-accent">
-              Наша родина зустрічає вас особисто — з ключем, порадою щодо прогулянки і теплим словом.
+              Гостерія «Old Town» — це шість унікальних номерів у серці Кам'янця, де кожна цеглина дихає історією. 
+              Це простір для тих, хто цінує щирість, затишок натурального дерева та можливість 
+              нарешті сповільнити час. Ми не просто приймаємо гостей — ми відкриваємо вам серце нашого міста.
             </p>
           </div>
 
           <div className="about-section__highlights">
             {highlights.map((item, idx) => (
-              <div key={idx} className={`about-highlight reveal reveal--delay-${idx + 4}`}>
+              <div key={idx} className={`about-highlight reveal reveal--delay-${idx + 3}`}>
                 <div className="about-highlight__icon-box">
                   <item.Icon width={20} height={20} />
                 </div>
@@ -66,7 +58,7 @@ export default function About() {
             ))}
           </div>
 
-          <div className="about-section__action reveal reveal--delay-7">
+          <div className="about-section__action reveal reveal--delay-6">
             <a href="#rooms" className="btn btn-primary">Відкрити номери</a>
           </div>
         </div>
