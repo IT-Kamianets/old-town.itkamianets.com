@@ -43,6 +43,19 @@
   transition: color var(--trans-fast);
 }
 
+.location__address-link {
+  color: var(--color-burgundy);
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: color var(--trans-fast);
+  text-decoration: none;
+  line-height: 1.4;
+}
+
+.location__address-link:hover {
+  color: var(--color-burgundy-lt);
+}
+
 .location__address-line a:hover {
   color: var(--color-burgundy-lt);
 }
@@ -106,6 +119,7 @@
 }
 
 .location__map {
+  position: relative;
   border-radius: var(--radius-lg);
   overflow: hidden;
   height: 460px;

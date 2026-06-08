@@ -87,10 +87,15 @@ export default function Location() {
             <address className="location__address" aria-label="Адреса готелю">
               <div className="location__address-line">
                 <span aria-hidden="true"><IconPin width={18} height={18} /></span>
-                <div>
-                  <strong>вулиця П'ятницька, 8</strong>
-                  <span>Кам'янець-Подільський, Хмельницька область, 32301</span>
-                </div>
+                <a
+                  href="https://maps.app.goo.gl/CXQJ5D2LCJz3iLoT6"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="location__address-link"
+                >
+                  вулиця П'ятницька, 8,
+                  Кам'янець-Подільський, Хмельницька область, 32301
+                </a>
               </div>
               <div className="location__address-line">
                 <span aria-hidden="true"><IconPhone /></span>
@@ -131,16 +136,26 @@ export default function Location() {
                   width: '100%',
                   height: '100%',
                   border: 0,
-                  filter: 'invert(90%) hue-rotate(180deg) brightness(85%) contrast(120%)'
                 }}
                 allowFullScreen=""
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 title="Google Maps location"
               ></iframe>
+              <a
+                href="https://maps.app.goo.gl/CXQJ5D2LCJz3iLoT6"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Відкрити в Google Maps"
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  zIndex: 1,
+                }}
+              />
             </div>
             <a
-              href="https://maps.google.com/?q=вулиця+П'ятницька+8+Кам'янець-Подільський"
+              href="https://maps.app.goo.gl/CXQJ5D2LCJz3iLoT6"
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-dark location__gmap-btn"

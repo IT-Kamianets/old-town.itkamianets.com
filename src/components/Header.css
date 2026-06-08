@@ -121,6 +121,10 @@
   color: var(--color-text);
 }
 
+.header__nav-link--active {
+  color: var(--color-white);
+}
+
 .header__nav-link--active::after {
   transform: scaleX(1);
 }

@@ -58,28 +58,39 @@ export default function BookingForm() {
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
-  // ─────────────────────────────────────────────────────────────────
-  // TODO: Підключи Formspree щоб форма реально надсилала:
-  //
-  // import { useForm } from '@formspree/react';
-  // const [state, handleSubmit] = useForm("YOUR_FORM_ID");
-  // if (state.succeeded) → показати success
-  //
-  // Або залишити поточний handleSubmit і вставити реальний fetch:
-  //
-  // const res = await fetch('https://formspree.io/f/YOUR_ID', {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify(form),
-  // });
-  // if (res.ok) setStatus('success'); else setStatus('error');
-  // ─────────────────────────────────────────────────────────────────
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('sending');
-    // Симуляція — замінити на реальний запит вище
-    await new Promise(r => setTimeout(r, 1200));
-    setStatus('success');
+
+    const roomLabel = ROOM_OPTIONS.find(r => r.value === form.room)?.label || 'Будь-який';
+    const message = [
+      '📋 Новий запит на бронювання',
+      `👤 Ім'я: ${form.name}`,
+      `📞 Телефон: ${form.phone}`,
+      `✉️ Email: ${form.email}`,
+      `📅 Заїзд: ${form.checkin}`,
+      `📅 Виїзд: ${form.checkout}`,
+      `🛏 Номер: ${roomLabel}`,
+      `👥 Гостей: ${form.guests}`,
+      form.message ? `💬 Побажання: ${form.message}` : '',
+    ].filter(Boolean).join('\n');
+
+    try {
+      const res = await fetch('https://it.webart.work/api/telegram/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug: 'old-town', message }),
+      });
+      const data = await res.json();
+      if (data === true) {
+        setStatus('success');
+        setForm(INITIAL);
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
+    }
   };
 
   return (
@@ -261,6 +272,12 @@ export default function BookingForm() {
                 >
                   {status === 'sending' ? 'Надсилаємо...' : 'Надіслати запит на бронювання'}
                 </button>
+
+                {status === 'error' && (
+                  <p className="form-note form-note--error" role="alert">
+                    Не вдалося надіслати запит. Спробуйте ще раз або зателефонуйте нам.
+                  </p>
+                )}
 
                 <p className="form-note">
                   * Поля обов'язкові. Ми відповімо протягом 4–8 годин.

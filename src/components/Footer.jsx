@@ -15,13 +15,9 @@ export default function Footer() {
             <span>Old Town</span>
             <em>Гостерія</em>
           </div>
-          <p className="footer__tagline">
-            Кам'янець-Подільський,<br />
-            Хмельницька область, Україна
-          </p>
           <address className="footer__addr" aria-label="Контактна інформація">
             <a href="tel:+380673801949">067 380 1949</a>
-            <a href="https://maps.google.com/?q=вулиця+П'ятницька+8+Кам'янець-Подільський" target="_blank" rel="noopener noreferrer">вул. П'ятницька, 8</a>
+            <a href="https://maps.app.goo.gl/CXQJ5D2LCJz3iLoT6" target="_blank" rel="noopener noreferrer">вул. П'ятницька, 8, Кам'янець-Подільський, Хмельницька область, Україна</a>
             <a href="https://www.instagram.com/oldtown_kp/?hl=ru" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
               <svg viewBox="0 0 24 24" width={14} height={14} fill="none" stroke="currentColor"
                 strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -39,10 +35,12 @@ export default function Footer() {
           <nav className="footer__nav-col" aria-label="Готель">
             <h3 className="footer__nav-title">Готель</h3>
             <ul>
+              <li><a href="#hero">Головна</a></li>
               <li><a href="#about">Про нас</a></li>
               <li><a href="#rooms">Номери</a></li>
               <li><a href="#services">Сервіси</a></li>
               <li><a href="#gallery">Галерея</a></li>
+              <li><a href="#location">Контакти</a></li>
             </ul>
           </nav>
 

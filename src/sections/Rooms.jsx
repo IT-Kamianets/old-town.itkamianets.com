@@ -9,6 +9,7 @@ const rooms = [
     subtitle: 'Автентичність та затишок',
     size: '15 м²',
     guests: '2 гості',
+    price: 2000,
     image: '/images/rooms/double-15m/main.webp',
     desc: 'Унікальний номер, головною особливістю якого є справжній камін. Вікна виходять на тиху історичну вуличку та пам’ятки Старого міста.',
     kitchen: 'Плита, духовка, холодильник, мікрохвильовка, обідня зона на вулиці',
@@ -22,6 +23,7 @@ const rooms = [
     subtitle: 'Тераса та дерев’яна підлога',
     size: '15 м²',
     guests: '2 гості',
+    price: 1700,
     image: '/images/rooms/double-deluxe-15m/main.webp',
     desc: 'Елегантний делюкс із власною терасою та видом на місто. Натуральна дерев’яна підлога створює атмосферу справжнього спокою.',
     kitchen: 'Повна міні-кухня з духовкою, плитою та кавоваркою',
@@ -35,6 +37,7 @@ const rooms = [
     subtitle: 'Простір для всієї родини',
     size: '21 м²',
     guests: 'до 4 гостей',
+    price: 2250,
     image: '/images/rooms/family-21m/main.webp',
     desc: 'Великий сімейний номер із каміном та вітальнею. Має 2 ліжка та диван-ліжко. Велика тераса з видом на старе місто.',
     kitchen: 'Духовка, плита, холодильник, обідня зона на терасі',
@@ -48,6 +51,7 @@ const rooms = [
     subtitle: 'Вид на пам’ятку та комфорт',
     size: '22 м²',
     guests: 'до 4 гостей',
+    price: 2350,
     image: '/images/rooms/superior-family-22m/main.webp',
     desc: 'Покращений номер із каміном та плитковою підлогою. Міні-кухня, пральна машина та повна звукоізоляція.',
     kitchen: 'Міні-кухня, плита, холодильник, посуд',
@@ -61,6 +65,7 @@ const rooms = [
     subtitle: 'Комфорт для компанії',
     size: '20 м²',
     guests: '4 гості',
+    price: 2550,
     image: '/images/rooms/quad-deluxe/main.webp',
     desc: 'Затишний чотиримісний простір із сучасним обладнанням. Ідеально підходить для друзів або великої родини.',
     kitchen: 'Чайник, холодильник, необхідний посуд',
@@ -74,6 +79,7 @@ const rooms = [
     subtitle: 'Максимальний простір',
     size: '25 м²',
     guests: '4 гості',
+    price: 3000,
     image: '/images/rooms/quad-deluxe-25m/main.webp',
     desc: 'Найбільший номер готелю з двома ліжками та диваном. Повністю обладнана кухня та тераса з видом на місто.',
     kitchen: 'Повноцінна кухня, духовка, плита, холодильник',
@@ -85,6 +91,30 @@ const rooms = [
 
 const RoomDetails = memo(({ room, onClose }) => {
   const [activeImg, setActiveImg] = useState(0);
+  const [bookStatus, setBookStatus] = useState('idle'); // idle | form | sending | success | error
+  const [bookForm, setBookForm] = useState({ name: '', phone: '' });
+
+  const handleBookFormChange = (e) => {
+    const { name, value } = e.target;
+    setBookForm(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleBook = async (e) => {
+    e.preventDefault();
+    setBookStatus('sending');
+    const message = `🏨 Гостерія Old Town\n🛏 Запит на бронювання\nНомер: ${room.name} (${room.size}, ${room.guests})\n👤 Ім'я: ${bookForm.name}\n📞 Телефон: ${bookForm.phone}`;
+    try {
+      const res = await fetch('https://it.webart.work/api/telegram/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug: 'old-town', message }),
+      });
+      const data = await res.json();
+      setBookStatus(data === true ? 'success' : 'error');
+    } catch {
+      setBookStatus('error');
+    }
+  };
 
   const nextImg = () => setActiveImg((prev) => (prev + 1) % room.images.length);
   const prevImg = () => setActiveImg((prev) => (prev - 1 + room.images.length) % room.images.length);
@@ -165,7 +195,55 @@ const RoomDetails = memo(({ room, onClose }) => {
               </div>
             </div>
             <div className="room-detail-cta">
-              <a href="tel:+380673801949" className="btn btn-primary">Забронювати</a>
+              {bookStatus === 'success' ? (
+                <p className="room-book-success">Запит надіслано! Ми зв'яжемося з вами найближчим часом.</p>
+              ) : bookStatus === 'idle' ? (
+                <div className="room-detail-cta__row">
+                  <div className="room-detail-price">
+                    <span className="room-detail-price__label">від</span>
+                    <span className="room-detail-price__amount">{room.price.toLocaleString('uk-UA')} ₴</span>
+                    <span className="room-detail-price__per">/ ніч</span>
+                  </div>
+                  <button className="btn btn-primary" onClick={() => setBookStatus('form')}>
+                    Забронювати
+                  </button>
+                </div>
+              ) : (
+                <form className="room-book-form" onSubmit={handleBook} noValidate>
+                  <div className="room-book-form__field">
+                    <input
+                      name="name"
+                      type="text"
+                      placeholder="Ваше ім'я"
+                      value={bookForm.name}
+                      onChange={handleBookFormChange}
+                      required
+                      autoFocus
+                    />
+                  </div>
+                  <div className="room-book-form__field">
+                    <input
+                      name="phone"
+                      type="tel"
+                      placeholder="Телефон"
+                      value={bookForm.phone}
+                      onChange={handleBookFormChange}
+                      required
+                    />
+                  </div>
+                  {bookStatus === 'error' && (
+                    <p className="room-book-error">Помилка. Зателефонуйте: <a href="tel:+380673801949">067 380 1949</a></p>
+                  )}
+                  <div className="room-book-form__actions">
+                    <button type="button" className="btn btn-ghost" onClick={() => setBookStatus('idle')}>
+                      Скасувати
+                    </button>
+                    <button type="submit" className="btn btn-primary" disabled={bookStatus === 'sending'}>
+                      {bookStatus === 'sending' ? 'Надсилаємо...' : 'Надіслати'}
+                    </button>
+                  </div>
+                </form>
+              )}
             </div>
           </div>
         </div>

@@ -16,38 +16,33 @@ export default function Header() {
 
   useEffect(() => {
     let rafId = null;
+
+    const update = () => {
+      setScrolled(window.scrollY > 60);
+
+      const threshold = window.innerHeight * 0.4;
+      let active = '';
+      for (const { href } of navLinks) {
+        const el = document.querySelector(href);
+        if (!el) continue;
+        if (el.getBoundingClientRect().top <= threshold) active = href;
+      }
+      setActiveSection(active);
+
+      rafId = null;
+    };
+
     const onScroll = () => {
       if (rafId) return;
-      rafId = requestAnimationFrame(() => {
-        setScrolled(window.scrollY > 60);
-        rafId = null;
-      });
+      rafId = requestAnimationFrame(update);
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setActiveSection('#' + entry.target.id);
-        }
-      });
-    }, {
-      rootMargin: '-30% 0px -70% 0px'
-    });
-
-    setTimeout(() => {
-      navLinks.forEach(link => {
-        const el = document.querySelector(link.href);
-        if (el) observer.observe(el);
-      });
-    }, 100);
+    update();
 
     return () => {
       window.removeEventListener('scroll', onScroll);
       if (rafId) cancelAnimationFrame(rafId);
-      observer.disconnect();
     };
   }, []);
 

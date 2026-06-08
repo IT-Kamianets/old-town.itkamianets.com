@@ -189,6 +189,10 @@
   text-align: center;
 }
 
+.form-note--error {
+  color: #c0392b;
+}
+
 /* Success state */
 .contact__success {
   display: flex;
